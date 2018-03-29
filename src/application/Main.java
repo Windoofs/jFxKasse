@@ -51,6 +51,7 @@ public class Main extends Application
 					getClass().getResource("MainWindow.fxml"));
 			AnchorPane pane = loader.load();
 			// Test
+			//Test
 			// primaryStage.setWidth(1536);
 			// primaryStage.setHeight(864);
 			primaryStage.setTitle("jFxKasse"); // Title der Stage
