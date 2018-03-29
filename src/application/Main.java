@@ -1,11 +1,11 @@
-package application;	
+package application;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Random;
-import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -27,69 +27,86 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
-public class Main extends Application {
+public class Main extends Application
+{
 	private MainWindowController mwc;
+
 	private DBController dbc = new DBController(this);
-	private String schluesselNutzer; //Passwort des Nutzers
+
+	private String schluesselNutzer; // Passwort des Nutzers
 
 	private Stage primaryStage;
+
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage)
+	{
 		this.primaryStage = primaryStage;
 		mainWindow();
 	}
-	private void mainWindow(){
-		try {
-			FXMLLoader loader =  new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-			AnchorPane pane = loader.load();
 
-			//primaryStage.setWidth(1536);
-			//primaryStage.setHeight(864);
-			primaryStage.setTitle("jFxKasse");	//Title der Stage
+	private void mainWindow()
+	{
+		try {
+			FXMLLoader loader = new FXMLLoader(
+					getClass().getResource("MainWindow.fxml"));
+			AnchorPane pane = loader.load();
+			// Test
+			// primaryStage.setWidth(1536);
+			// primaryStage.setHeight(864);
+			primaryStage.setTitle("jFxKasse"); // Title der Stage
 
 			mwc = loader.getController();
 			mwc.setMain(this, dbc);
 
-			firstStart(); //Prüft ob das Programm zuvor gestartet wurde
+			firstStart(); // Prüft ob das Programm zuvor gestartet wurde
 
-			dbc.main(); //Startet die Datenbank
-			mwc.initUI(); //Startet die UI
-			mwc.fuelleTablle(); //Ladt die Einträge in die Tabelle
+			dbc.main(); // Startet die Datenbank
+			mwc.initUI(); // Startet die UI
+			mwc.fuelleTablle(); // Ladt die Einträge in die Tabelle
 
 			Scene scene = new Scene(pane);
-			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);	
-			primaryStage.show();	//zeigt die Stage an
-		} catch(Exception e) {
+			scene.getStylesheets()
+					.add(Main.class.getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show(); // zeigt die Stage an
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public static void main(String[] args) {
+
+	public static void main(String[] args)
+	{
 		launch(args);
 	}
-	
-	private void firstStart() throws Exception{
-		if(mwc.loadSettings()){ //Wenn XML gefunden
-			dbc.verbindeDatenbank(); //Verbindet mit der Datenbank-Datei
-			
 
-		}else{  //Wenn keine XML gefunden --> erster Start
+	private void firstStart() throws Exception
+	{
+		if (mwc.loadSettings()) { // Wenn XML gefunden
+			dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
+
+		} else { // Wenn keine XML gefunden --> erster Start
 			System.out.println("keine XML gefunden!");
-			if(System.getProperty("os.name").equals("Linux")) {
+			if (System.getProperty("os.name").equals("Linux")) {
 
-				File dir = new File(System.getProperty("user.home") + "/bin/PWMaster"); //Erstellt den Unterordner
-				dir.mkdir(); //Erstellt den Unterordner
+				File dir = new File(
+						System.getProperty("user.home") + "/bin/PWMaster"); // Erstellt
+																								// den
+																								// Unterordner
+				dir.mkdir(); // Erstellt den Unterordner
 			} else {
-				File dir = new File("C:/ProgramData/PWMaster/"); //Erstellt den Unterordner
-				dir.mkdir(); //Erstellt den Unterordner
+				File dir = new File("C:/ProgramData/PWMaster/"); // Erstellt den
+																					// Unterordner
+				dir.mkdir(); // Erstellt den Unterordner
 			}
-			
-			mwc.saveSettings(schluesselNutzer, "dd"); // speichert das Passwort und den Individueller Schlüssel für die API in der XML
-			dbc.verbindeDatenbank(); //Verbindet mit der Datenbank-Datei
+
+			mwc.saveSettings(schluesselNutzer, "dd"); // speichert das Passwort und
+																	// den Individueller
+																	// Schlüssel für die API in
+																	// der XML
+			dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
 			dbc.erstelleDatenbank(); // Neue Datenbank-Datei wird erstellt
-			System.exit(0); //Programm wird beendet
+			System.exit(0); // Programm wird beendet
 		}
 	}
-	
-	
+
 }

@@ -38,40 +38,62 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
-public class MainWindowController {
+public class MainWindowController
+{
 	private static final String String = null;
+
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
+
 	Clipboard clipboard = toolkit.getSystemClipboard();
+
 	@FXML
 	private AnchorPane mainAnchorpane;
+
 	@FXML
-	private TreeTableView<tableData>  mainTreeTable;
+	private TreeTableView<tableData> mainTreeTable;
+
 	@FXML
-	private TreeTableColumn<tableData, String>  datumSpalte;
+	private TreeTableColumn<tableData, String> datumSpalte;
+
 	@FXML
 	private TreeTableColumn<tableData, String> kontoSpalte;
+
 	@FXML
-	private TreeTableColumn<tableData, Integer> idSpalte = new TreeTableColumn<>("");
+	private TreeTableColumn<tableData, Integer> idSpalte = new TreeTableColumn<>(
+			"");
+
 	@FXML
 	private Button ueberbtn;
-	
+
 	private Main main;
+
 	private DBController dbc;
-	private String filepathXMLWin = "C:/ProgramData/PWMaster/config.xml"; //Pfad wo die XML liegt
-	private String filepathXMLLinux = System.getProperty("user.home") + "/bin/PWMaster/config.xml"; //Pfad wo die XML liegt
+
+	private String filepathXMLWin = "C:/ProgramData/PWMaster/config.xml"; // Pfad
+																									// wo
+																									// die
+																									// XML
+																									// liegt
+
+	private String filepathXMLLinux = System.getProperty("user.home")
+			+ "/bin/PWMaster/config.xml"; // Pfad wo die XML liegt
+
 	private boolean showPasswort = false;
+
 	private String schluessel;
+
 	private String base32Secret;
+
 	private int id;
+
 	@FXML
 	TreeItem<tableData> root = new TreeItem<>(new tableData(0, "0", "0"));
-	Properties props = new Properties();
-	
-	
 
-	
+	Properties props = new Properties();
+
 	@FXML
-	public void ueberbtnAction(ActionEvent event) { //Öffnet den Über-Dialog
+	public void ueberbtnAction(ActionEvent event)
+	{ // Öffnet den Über-Dialog
 
 		// Erstellt einen Dialog
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -87,97 +109,129 @@ public class MainWindowController {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
-		grid.add(new Label("Datenbank: sqlite.org - Public Domain" 
-				+"\nBASE64Decoder: java2s.com/Code/Jar/s/DownloadsunmiscBASE64Decoderjar.htm - GPLv2" 
-				+"\nCrypo: blog.axxg.de/ - Copyright  2013 AxxG  Alexander Grösel"
-				+" \nzwei Faktoren: github.com/j256/two-factor-auth - ISC License"
-				+" \nUI Design: eclipse.org/efxclipse/install.html - Eclipse Public License 1.0"
-				+" \nUI - Datenbank Integration: basierend auf Project-HomeFlix - github.com/Seil0/Project-HomeFlix - GPLv3 \n"
-				+" \nMaintainer: hendrik.schutter@icloud.com"
-				+" \n(c) 2017 Hendrik Schutter"), 0, 0);
+		grid.add(new Label("Datenbank: sqlite.org - Public Domain"
+				+ "\nBASE64Decoder: java2s.com/Code/Jar/s/DownloadsunmiscBASE64Decoderjar.htm - GPLv2"
+				+ "\nCrypo: blog.axxg.de/ - Copyright  2013 AxxG  Alexander Grösel"
+				+ " \nzwei Faktoren: github.com/j256/two-factor-auth - ISC License"
+				+ " \nUI Design: eclipse.org/efxclipse/install.html - Eclipse Public License 1.0"
+				+ " \nUI - Datenbank Integration: basierend auf Project-HomeFlix - github.com/Seil0/Project-HomeFlix - GPLv3 \n"
+				+ " \nMaintainer: hendrik.schutter@icloud.com"
+				+ " \n(c) 2017 Hendrik Schutter"), 0, 0);
 
-		dialog.getDialogPane().setContent(grid); //Setzt die GridPane auf die DialogPane
+		dialog.getDialogPane().setContent(grid); // Setzt die GridPane auf die
+																// DialogPane
 		dialog.showAndWait();
 	}
+
 	@FXML
-	
-	public void fuelleTablle(){ //Lädt die Datenbank in die Tabelle
-		
+
+	public void fuelleTablle()
+	{ // Lädt die Datenbank in die Tabelle
+
 		dbc.setSchluessel(schluessel);
-		for(int i = 0; i < dbc.ladeTabelle().size(); i++){
-			tableData helpTableData = new tableData(dbc.ladeTabelle().get(i).getID(),
-					dbc.ladeTabelle().get(i).getDatum(), dbc.ladeTabelle().get(i).getKonto());
+		for (int i = 0; i < dbc.ladeTabelle().size(); i++) {
+			tableData helpTableData = new tableData(
+					dbc.ladeTabelle().get(i).getID(),
+					dbc.ladeTabelle().get(i).getDatum(),
+					dbc.ladeTabelle().get(i).getKonto());
 			root.getChildren().add(new TreeItem<tableData>(helpTableData));
 		}
 	}
-	public void initUI(){
+
+	public void initUI()
+	{
 		mainTreeTable.setRoot(root);
 		mainTreeTable.setShowRoot(false);
 		mainTreeTable.setEditable(false);
-       //Setzt die Textfelder
-	
+		// Setzt die Textfelder
 
-		idSpalte.setCellValueFactory(cellData -> cellData.getValue().getValue().idProperty().asObject());
-		datumSpalte.setCellValueFactory(cellData -> cellData.getValue().getValue().datumProperty());
-		kontoSpalte.setCellValueFactory(cellData -> cellData.getValue().getValue().kontoProperty());
+		idSpalte.setCellValueFactory(
+				cellData -> cellData.getValue().getValue().idProperty().asObject());
+		datumSpalte.setCellValueFactory(
+				cellData -> cellData.getValue().getValue().datumProperty());
+		kontoSpalte.setCellValueFactory(
+				cellData -> cellData.getValue().getValue().kontoProperty());
 		mainTreeTable.getColumns().add(idSpalte);
 		mainTreeTable.getColumns().get(2).setVisible(false);
-		mainTreeTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {	
-			@Override
-			public void changed(ObservableValue<?> observable, Object oldVal, Object newVal){
-				// last = selected; //for auto-play
-				int selected = mainTreeTable.getSelectionModel().getSelectedIndex(); //get selected item
-				id = idSpalte.getCellData(selected); //Ausgewählte Spalte
-				showPasswort =false;
-			
-				try { //Setzt den entschlüsselten Inhalt in die Textfelder
-					//tf01.setText("Verschlüsseltes Passwort von " + crypo.entschluesseln(dbc.getKonto(id), schluessel) + " : " + dbc.getPasswort(id));
-					//tfNutzername.setText(crypo.entschluesseln(dbc.getNutzername(id), schluessel));
-					//tfEmail.setText(crypo.entschluesseln(dbc.getEmail(id), schluessel));
-					//tfPasswort.setText(crypo.entschluesseln(dbc.getPasswort(id), schluessel));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}                       
-			}	
-		});
+		mainTreeTable.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Object>() {
+					@Override
+					public void changed(ObservableValue<?> observable, Object oldVal,
+							Object newVal)
+					{
+						// last = selected; //for auto-play
+						int selected = mainTreeTable.getSelectionModel()
+								.getSelectedIndex(); // get selected item
+						id = idSpalte.getCellData(selected); // Ausgewählte Spalte
+						showPasswort = false;
+
+						try { // Setzt den entschlüsselten Inhalt in die Textfelder
+							// tf01.setText("Verschlüsseltes Passwort von " +
+							// crypo.entschluesseln(dbc.getKonto(id), schluessel) + " :
+							// " + dbc.getPasswort(id));
+							// tfNutzername.setText(crypo.entschluesseln(dbc.getNutzername(id),
+							// schluessel));
+							// tfEmail.setText(crypo.entschluesseln(dbc.getEmail(id),
+							// schluessel));
+							// tfPasswort.setText(crypo.entschluesseln(dbc.getPasswort(id),
+							// schluessel));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
 	}
-	public void setMain(Main main, DBController dbc){
+
+	public void setMain(Main main, DBController dbc)
+	{
 		this.main = main;
 		this.dbc = dbc;
 	}
-	public String getSystemDatum(){ //Gibt das System-Datum zurück
+
+	public String getSystemDatum()
+	{ // Gibt das System-Datum zurück
 		java.util.Date now = new java.util.Date();
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd.MM.yyyy");
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+				"dd.MM.yyyy");
 		String heutigesDatum = sdf.format(now);
 		return heutigesDatum;
 	}
-	public void saveSettings(String schluessel, String base32Secret) throws Exception{
-		OutputStream outputStream;	//new output-stream
+
+	public void saveSettings(String schluessel, String base32Secret)
+			throws Exception
+	{
+		OutputStream outputStream; // new output-stream
 		try {
-			//props.setProperty("key", crypo.verschluesseln(schluessel, crypo.getProgrammSchluessel()));	//writes path into property
-			//props.setProperty("TOTPkey", crypo.verschluesseln(base32Secret, crypo.getProgrammSchluessel()));	//writes path into property
-			if(System.getProperty("os.name").equals("Linux")) {
+			// props.setProperty("key", crypo.verschluesseln(schluessel,
+			// crypo.getProgrammSchluessel())); //writes path into property
+			// props.setProperty("TOTPkey", crypo.verschluesseln(base32Secret,
+			// crypo.getProgrammSchluessel())); //writes path into property
+			if (System.getProperty("os.name").equals("Linux")) {
 				outputStream = new FileOutputStream(filepathXMLLinux);
 			} else {
 				outputStream = new FileOutputStream(filepathXMLWin);
 			}
-			props.storeToXML(outputStream, "PWMaster settings");	//writes new .xml
+			props.storeToXML(outputStream, "PWMaster settings"); // writes new .xml
 			outputStream.close();
 		} catch (IOException e) {
 		}
 	}
-	public boolean loadSettings() throws Exception{ //Ladt die Daten aus der XML
+
+	public boolean loadSettings() throws Exception
+	{ // Ladt die Daten aus der XML
 		InputStream inputStream;
 		try {
-			if(System.getProperty("os.name").equals("Linux")) {
+			if (System.getProperty("os.name").equals("Linux")) {
 				inputStream = new FileInputStream(filepathXMLLinux);
 			} else {
 				inputStream = new FileInputStream(filepathXMLWin);
 			}
 			props.loadFromXML(inputStream);
-			//schluessel =   crypo.entschluesseln(props.getProperty("key"), crypo.getProgrammSchluessel());  //liest schluessel von property
-			//base32Secret =   crypo.entschluesseln(props.getProperty("TOTPkey"), crypo.getProgrammSchluessel());  //liest schluessel von property
+			// schluessel = crypo.entschluesseln(props.getProperty("key"),
+			// crypo.getProgrammSchluessel()); //liest schluessel von property
+			// base32Secret = crypo.entschluesseln(props.getProperty("TOTPkey"),
+			// crypo.getProgrammSchluessel()); //liest schluessel von property
 			inputStream.close();
 			return true;
 		} catch (IOException e) {
@@ -185,17 +239,25 @@ public class MainWindowController {
 			return false;
 		}
 	}
-	public String getSchluesselXML(){ //Gibt den Schlüssel zurück für die Main
+
+	public String getSchluesselXML()
+	{ // Gibt den Schlüssel zurück für die Main
 		return schluessel;
 	}
-	public void starteDB(){ //Startet die Datenbank
+
+	public void starteDB()
+	{ // Startet die Datenbank
 		dbc.verbindeDatenbank();
 	}
-	public void erzeugeDB(){ //Erzeuge die Datenbank
+
+	public void erzeugeDB()
+	{ // Erzeuge die Datenbank
 		dbc.erstelleDatenbank();
 		dbc.verbindeDatenbank();
 	}
-	public String getbase32Secret(){ //Gibt den base32Secret zurück für die Main
+
+	public String getbase32Secret()
+	{ // Gibt den base32Secret zurück für die Main
 		return base32Secret;
 	}
 }
