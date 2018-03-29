@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TreeTableColumn?>
@@ -10,6 +11,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainAnchorpane" maxHeight="924.0" maxWidth="1536.0" minHeight="864.0" minWidth="1536.0" prefHeight="913.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
@@ -48,10 +50,10 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="850.0" prefWidth="1536.0">
                      <children>
-                        <TreeTableView fx:id="mainTreeTable1" layoutX="34.0" layoutY="355.0" prefHeight="450.0" prefWidth="330.0">
+                        <TreeTableView fx:id="tableCurrentOrder" layoutX="15.0" layoutY="123.0" prefHeight="464.0" prefWidth="374.0">
                            <columns>
-                              <TreeTableColumn fx:id="datumSpalte1" prefWidth="160.0" text="Datum" />
-                              <TreeTableColumn fx:id="kontoSpalte1" prefWidth="169.0" text="Konto" />
+                              <TreeTableColumn fx:id="columnPosition" prefWidth="304.3333740234375" resizable="false" text="Position" />
+                              <TreeTableColumn fx:id="columnQuantity" prefWidth="80.6666259765625" resizable="false" text="Anzahl" />
                            </columns>
                         </TreeTableView>
                         <GridPane gridLinesVisible="true" layoutX="421.0" layoutY="15.0" prefHeight="850.0" prefWidth="1100.0">
@@ -90,7 +92,7 @@
                                     <Font name="Cantarell Regular" size="30.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="gridButton051" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton05Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
+                              <JFXButton fx:id="gridButton05" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton05Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
                                  <font>
                                     <Font name="Cantarell Regular" size="30.0" />
                                  </font>
@@ -197,6 +199,37 @@
                               </JFXButton>
                            </children>
                         </GridPane>
+                        <Button fx:id="btnPrintBill" contentDisplay="CENTER" defaultButton="true" graphicTextGap="1.0" layoutX="45.0" layoutY="765.0" maxHeight="70.0" minHeight="100.0" mnemonicParsing="false" onAction="#btnPrintBillAction" prefHeight="70.0" prefWidth="310.0" text="Drucken" wrapText="true">
+                           <font>
+                              <Font name="Cantarell Bold" size="56.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnDeleteSelectedPosition" layoutX="16.0" layoutY="603.0" mnemonicParsing="false" onAction="#btnDeleteSelectedPositionAction" prefWidth="374.0" text="Ausgewählte Position löschen" textAlignment="CENTER">
+                           <font>
+                              <Font name="Cantarell Regular" size="24.0" />
+                           </font>
+                        </Button>
+                        <Label fx:id="labelAllPrize" alignment="CENTER" contentDisplay="CENTER" layoutY="655.0" prefHeight="15.0" prefWidth="386.0" text="99,99 €" textAlignment="CENTER">
+                           <font>
+                              <Font name="Open Sans" size="80.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelJobCounter" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="5.0" layoutY="70.0" prefHeight="15.0" prefWidth="386.0" text="Auftragsnummer: 128" textAlignment="CENTER">
+                           <font>
+                              <Font name="Cantarell Regular" size="32.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelTime" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="7.0" layoutY="11.0" prefHeight="15.0" prefWidth="386.0" text="Uhrzeit: 12:15" textAlignment="CENTER">
+                           <font>
+                              <Font name="Cantarell Regular" size="32.0" />
+                           </font>
+                        </Label>
+                        <JFXButton fx:id="btnLock" buttonType="RAISED" cancelButton="true" layoutX="16.0" layoutY="11.0" lineSpacing="2.0" onAction="#btnLockAction" prefHeight="42.0" prefWidth="148.0" ripplerFill="BLACK" text="Kasse sperren" textAlignment="CENTER" textFill="#c91c1c" textOverrun="LEADING_WORD_ELLIPSIS">
+                           <font>
+                              <Font name="Cantarell Regular" size="19.0" />
+                           </font>
+                        </JFXButton>
+                        <Line endX="800.0" layoutX="53.0" layoutY="465.0" rotate="90.0" startX="-100.0" strokeWidth="4.0" />
                      </children>
                   </AnchorPane>
                </content>

@@ -50,13 +50,13 @@ public class MainWindowController
 	private AnchorPane mainAnchorpane;
 
 	@FXML
-	private TreeTableView<tableData> mainTreeTable;
+	private TreeTableView<tableData> tableCurrentOrder;
 
 	@FXML
-	private TreeTableColumn<tableData, String> datumSpalte;
+	private TreeTableColumn<tableData, String> columnQuantity;
 
 	@FXML
-	private TreeTableColumn<tableData, String> kontoSpalte;
+	private TreeTableColumn<tableData, String> columnPosition;
 
 	@FXML
 	private TreeTableColumn<tableData, Integer> idSpalte = new TreeTableColumn<>(
@@ -140,6 +140,24 @@ public class MainWindowController
 	@FXML
 	private Button gridButton25;
 
+	@FXML
+	private Button btnDeleteSelectedPosition;
+
+	@FXML
+	private Button btnPrintBill;
+
+	@FXML
+	private Button btnLock;
+
+	@FXML
+	private Label labelAllPrize;
+
+	@FXML
+	private Label labelJobCounter;
+
+	@FXML
+	private Label labelTime;
+
 	private Main main;
 
 	private DBController dbc;
@@ -196,6 +214,24 @@ public class MainWindowController
 		dialog.getDialogPane().setContent(grid); // Setzt die GridPane auf die
 																// DialogPane
 		dialog.showAndWait();
+	}
+
+	@FXML
+	public void btnLockAction(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void btnDeleteSelectedPositionAction(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void btnPrintBillAction(ActionEvent event)
+	{
+		System.out.println("Button!");
 	}
 
 	@FXML
@@ -365,27 +401,27 @@ public class MainWindowController
 
 	public void initUI()
 	{
-		mainTreeTable.setRoot(root);
-		mainTreeTable.setShowRoot(false);
-		mainTreeTable.setEditable(false);
+		tableCurrentOrder.setRoot(root);
+		tableCurrentOrder.setShowRoot(false);
+		tableCurrentOrder.setEditable(false);
 		// Setzt die Textfelder
 
 		idSpalte.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().idProperty().asObject());
-		datumSpalte.setCellValueFactory(
+		columnQuantity.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().datumProperty());
-		kontoSpalte.setCellValueFactory(
+		columnPosition.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().kontoProperty());
-		mainTreeTable.getColumns().add(idSpalte);
-		mainTreeTable.getColumns().get(2).setVisible(false);
-		mainTreeTable.getSelectionModel().selectedItemProperty()
+		tableCurrentOrder.getColumns().add(idSpalte);
+		tableCurrentOrder.getColumns().get(2).setVisible(false);
+		tableCurrentOrder.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Object>() {
 					@Override
 					public void changed(ObservableValue<?> observable, Object oldVal,
 							Object newVal)
 					{
 						// last = selected; //for auto-play
-						int selected = mainTreeTable.getSelectionModel()
+						int selected = tableCurrentOrder.getSelectionModel()
 								.getSelectedIndex(); // get selected item
 						id = idSpalte.getCellData(selected); // Ausgewählte Spalte
 						showPasswort = false;
