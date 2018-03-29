@@ -65,6 +65,81 @@ public class MainWindowController
 	@FXML
 	private Button ueberbtn;
 
+	@FXML
+	private Button gridButton01;
+
+	@FXML
+	private Button gridButton02;
+
+	@FXML
+	private Button gridButton03;
+
+	@FXML
+	private Button gridButton04;
+
+	@FXML
+	private Button gridButton05;
+
+	@FXML
+	private Button gridButton06;
+
+	@FXML
+	private Button gridButton07;
+
+	@FXML
+	private Button gridButton08;
+
+	@FXML
+	private Button gridButton09;
+
+	@FXML
+	private Button gridButton10;
+
+	@FXML
+	private Button gridButton11;
+
+	@FXML
+	private Button gridButton12;
+
+	@FXML
+	private Button gridButton13;
+
+	@FXML
+	private Button gridButton14;
+
+	@FXML
+	private Button gridButton15;
+
+	@FXML
+	private Button gridButton16;
+
+	@FXML
+	private Button gridButton17;
+
+	@FXML
+	private Button gridButton18;
+
+	@FXML
+	private Button gridButton19;
+
+	@FXML
+	private Button gridButton20;
+
+	@FXML
+	private Button gridButton21;
+
+	@FXML
+	private Button gridButton22;
+
+	@FXML
+	private Button gridButton23;
+
+	@FXML
+	private Button gridButton24;
+
+	@FXML
+	private Button gridButton25;
+
 	private Main main;
 
 	private DBController dbc;
@@ -121,6 +196,156 @@ public class MainWindowController
 		dialog.getDialogPane().setContent(grid); // Setzt die GridPane auf die
 																// DialogPane
 		dialog.showAndWait();
+	}
+
+	@FXML
+	public void gridButton01Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton02Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton03Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton04Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton05Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton06Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton07Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton08Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton09Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton10Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton11Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton12Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton13Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton14Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton15Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton16Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton17Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton18Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton19Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton20Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton21Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton22Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton23Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton24Action(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void gridButton25Action(ActionEvent event)
+	{
+		System.out.println("Button!");
 	}
 
 	@FXML
