@@ -15,263 +15,268 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorpane" maxHeight="924.0" maxWidth="1536.0" minHeight="864.0" minWidth="1536.0" prefHeight="913.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
-   <children>
-      <TabPane layoutX="4.0" layoutY="5.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="924.0" prefWidth="1536.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <tabs>
-          <Tab text="Einstellungen">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="ueberbtn" layoutX="676.0" layoutY="315.0" mnemonicParsing="false" onAction="#ueberbtnAction" text="Über" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-            <Tab text="Positionen bearbeiten">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-            <Tab text="Aufträge">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="850.0" prefWidth="1536.0">
-                     <children>
-                        <TreeTableView fx:id="mainTreeTable" layoutX="11.0" layoutY="10.0" prefHeight="740.0" prefWidth="1514.0">
-                          <columns>
-                            <TreeTableColumn fx:id="datumSpalte" editable="false" prefWidth="90.6666259765625" text="Betrag" />
-                            <TreeTableColumn fx:id="kontoSpalte" editable="false" prefWidth="91.0" text="Zustand" />
-                              <TreeTableColumn fx:id="kontoSpalte1" editable="false" prefWidth="1140.333251953125" sortable="false" text="Positionen" />
-                              <TreeTableColumn fx:id="kontoSpalte2" editable="false" prefWidth="121.666748046875" text="Zeit" />
-                              <TreeTableColumn fx:id="kontoSpalte3" editable="false" prefWidth="72.333251953125" text="Nummer" />
-                          </columns>
-                        </TreeTableView>
-                        <Button fx:id="btnCancelJob" layoutX="10.0" layoutY="800.0" mnemonicParsing="false" onAction="#btnCancelJobAction" text="Ausgewählter Auftrag stonieren">
-                           <font>
-                              <Font name="Cantarell Regular" size="17.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="btnReprintJob" layoutX="340.0" layoutY="800.0" mnemonicParsing="false" onAction="#btnReprintJobAction" text="Ausgewählter Auftrag Drucken">
-                           <font>
-                              <Font name="Cantarell Regular" size="17.0" />
-                           </font>
-                        </Button>
-                        <TitledPane alignment="CENTER" collapsible="false" contentDisplay="CENTER" layoutX="1041.0" layoutY="762.0" prefHeight="107.0" prefWidth="485.0" text="Statistik - 30.03..2018 15:15 Uhr">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="59.0" prefWidth="483.0">
-                                 <children>
-                                    <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="2.0" prefHeight="34.0" prefWidth="460.0" text="Anzahl Aufträge: 2781">
-                                       <font>
-                                          <Font size="23.0" />
-                                       </font>
-                                    </Label>
-                                    <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="26.0" prefHeight="34.0" prefWidth="460.0" text="Durchschnittlicher Auftragswert: 12,90€">
-                                       <font>
-                                          <Font size="23.0" />
-                                       </font>
-                                    </Label>
-                                    <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="50.0" prefHeight="34.0" prefWidth="460.0" text="Gesamt: 1088,48€">
-                                       <font>
-                                          <Font size="23.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </TitledPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Neuer Auftrag">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="850.0" prefWidth="1536.0">
-                     <children>
-                        <TreeTableView fx:id="tableCurrentOrder" layoutX="15.0" layoutY="123.0" prefHeight="464.0" prefWidth="374.0">
-                           <columns>
-                              <TreeTableColumn fx:id="columnPosition" editable="false" prefWidth="304.3333740234375" resizable="false" sortable="false" text="Position" />
-                              <TreeTableColumn fx:id="columnQuantity" editable="false" prefWidth="80.6666259765625" resizable="false" sortable="false" text="Anzahl" />
-                           </columns>
-                        </TreeTableView>
-                        <GridPane gridLinesVisible="true" layoutX="421.0" layoutY="15.0" prefHeight="850.0" prefWidth="1100.0">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <JFXButton fx:id="gridButton04" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton04Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton05" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton05Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton03" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton03Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton02" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton02Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton05" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton05Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton10" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton10Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton09" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton09Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton08" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton08Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton07" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton07Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton06" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton06Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton15" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton15Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton14" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton14Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton13" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton13Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton12" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton12Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton11" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton11Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton20" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton20Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton19" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton19Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton18" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton18Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton17" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton17Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton16" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton16Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton25" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton25Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton23" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton23Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton22" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton22Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton21" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton21Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="gridButton24" buttonType="RAISED" maxWidth="235.0" minWidth="200.0" onAction="#gridButton24Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="Cantarell Regular" size="30.0" />
-                                 </font>
-                              </JFXButton>
-                           </children>
-                        </GridPane>
-                        <Button fx:id="btnPrintBill" contentDisplay="CENTER" defaultButton="true" graphicTextGap="1.0" layoutX="45.0" layoutY="765.0" maxHeight="70.0" minHeight="100.0" mnemonicParsing="false" onAction="#btnPrintBillAction" prefHeight="70.0" prefWidth="310.0" text="Drucken" wrapText="true">
-                           <font>
-                              <Font name="Cantarell Bold" size="56.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="btnDeleteSelectedPosition" layoutX="16.0" layoutY="603.0" mnemonicParsing="false" onAction="#btnDeleteSelectedPositionAction" prefWidth="374.0" text="Ausgewählte Position löschen" textAlignment="CENTER">
-                           <font>
-                              <Font name="Cantarell Regular" size="24.0" />
-                           </font>
-                        </Button>
-                        <Label fx:id="labelAllPrize" alignment="CENTER" contentDisplay="CENTER" layoutY="655.0" prefHeight="15.0" prefWidth="386.0" text="99,99 €" textAlignment="CENTER">
-                           <font>
-                              <Font name="Open Sans" size="80.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="labelJobCounter" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="5.0" layoutY="70.0" prefHeight="15.0" prefWidth="386.0" text="Auftragsnummer: 128" textAlignment="CENTER">
-                           <font>
-                              <Font name="Cantarell Regular" size="32.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="labelTime" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="7.0" layoutY="11.0" prefHeight="15.0" prefWidth="386.0" text="Uhrzeit: 12:15" textAlignment="CENTER">
-                           <font>
-                              <Font name="Cantarell Regular" size="32.0" />
-                           </font>
-                        </Label>
-                        <JFXButton fx:id="btnLock" buttonType="RAISED" cancelButton="true" layoutX="16.0" layoutY="11.0" lineSpacing="2.0" onAction="#btnLockAction" prefHeight="42.0" prefWidth="148.0" ripplerFill="BLACK" text="Kasse sperren" textAlignment="CENTER" textFill="#c91c1c" textOverrun="LEADING_WORD_ELLIPSIS">
-                           <font>
-                              <Font name="Cantarell Regular" size="19.0" />
-                           </font>
-                        </JFXButton>
-                        <Line endX="800.0" layoutX="53.0" layoutY="465.0" rotate="90.0" startX="-100.0" strokeWidth="4.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-   </children>
+<AnchorPane fx:id="mainAnchorpane" maxHeight="732.0" maxWidth="1366.0" minHeight="732.0" minWidth="1366.0" prefHeight="732.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+	<children>
+		<TabPane layoutX="4.0" layoutY="5.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="924.0" prefWidth="1536.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<tabs>
+				<Tab text="Einstellungen">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+							<children>
+								<Button fx:id="ueberbtn" layoutX="676.0" layoutY="315.0" mnemonicParsing="false" onAction="#ueberbtnAction" text="Über" />
+							</children>
+						</AnchorPane>
+					</content>
+				</Tab>
+				<Tab text="Positionen bearbeiten">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+					</content>
+				</Tab>
+				<Tab text="Aufträge">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="850.0" prefWidth="1536.0">
+							<children>
+								<TreeTableView fx:id="jobsTreeTable" layoutX="11.0" layoutY="10.0" prefHeight="541.0" prefWidth="1346.0">
+									<columns>
+										<TreeTableColumn fx:id="columnValue" editable="false" prefWidth="90.6666259765625" text="Betrag" />
+										<TreeTableColumn fx:id="columnState" editable="false" prefWidth="91.0" text="Zustand" />
+										<TreeTableColumn fx:id="columnPositions" editable="false" prefWidth="1140.333251953125" sortable="false" text="Positionen" />
+										<TreeTableColumn fx:id="columnTime" editable="false" prefWidth="121.666748046875" text="Zeit" />
+										<TreeTableColumn fx:id="columnNumber" editable="false" prefWidth="72.333251953125" text="Nummer" />
+									</columns>
+								</TreeTableView>
+								<Button fx:id="btnReprintJob" layoutX="378.0" layoutY="603.0" mnemonicParsing="false" onAction="#btnReprintJobAction" text="Ausgewählter Auftrag Drucken">
+									<font>
+										<Font name="Cantarell Regular" size="17.0" />
+									</font>
+								</Button>
+								<TitledPane fx:id="titlePaneStats" alignment="CENTER" collapsible="false" contentDisplay="CENTER" layoutX="992.0" layoutY="561.0" prefHeight="118.0" prefWidth="365.0" text="Statistik - 30.03..2018 15:15 Uhr">
+									<content>
+										<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="59.0" prefWidth="483.0">
+											<children>
+												<Label fx:id="lableJobCount" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="2.0" prefHeight="34.0" prefWidth="340.0" text="Anzahl Aufträge: 2781">
+													<font>
+														<Font name="Cantarell Regular" size="18.0" />
+													</font>
+												</Label>
+												<Label fx:id="labelAvgJob" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="30.0" prefHeight="34.0" prefWidth="340.0" text="Durchschnittlicher Auftragswert: 12,90€">
+													<font>
+														<Font name="Cantarell Regular" size="18.0" />
+													</font>
+												</Label>
+												<Label fx:id="lableAllValue" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="60.0" prefHeight="34.0" prefWidth="340.0" text="Gesamt: 1088,48€">
+													<font>
+														<Font name="Cantarell Regular" size="18.0" />
+													</font>
+												</Label>
+											</children>
+										</AnchorPane>
+									</content>
+								</TitledPane>
+								<Button fx:id="bntCancelJob" layoutX="44.0" layoutY="603.0" mnemonicParsing="false" onAction="#bntCancelJobAction" text="Ausgewählter Auftrag stonieren">
+									<font>
+										<Font name="Cantarell Regular" size="17.0" />
+									</font>
+								</Button>
+								<Button fx:id="btnCalcStats" layoutX="712.0" layoutY="603.0" mnemonicParsing="false" onAction="#btnCalcStatsAction" text="Statistiken berrechnen">
+									<font>
+										<Font name="Cantarell Regular" size="17.0" />
+									</font>
+								</Button>
+							</children>
+						</AnchorPane>
+					</content>
+				</Tab>
+				<Tab text="Neuer Auftrag">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="850.0" prefWidth="1536.0">
+							<children>
+								<TreeTableView fx:id="tableCurrentOrder" layoutX="15.0" layoutY="85.0" prefHeight="379.0" prefWidth="382.0">
+									<columns>
+										<TreeTableColumn fx:id="columnPosition" editable="false" prefWidth="304.3333740234375" resizable="false" sortable="false" text="Position" />
+										<TreeTableColumn fx:id="columnQuantity" editable="false" prefWidth="80.6666259765625" resizable="false" sortable="false" text="Anzahl" />
+									</columns>
+								</TreeTableView>
+								<GridPane gridLinesVisible="true" layoutX="430.0" layoutY="15.0" prefHeight="670.0" prefWidth="920.0">
+									<columnConstraints>
+										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+									</columnConstraints>
+									<rowConstraints>
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+									</rowConstraints>
+									<children>
+										<JFXButton fx:id="gridButton04" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton04Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton05" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton05Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton03" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton03Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton02" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton02Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton01" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton01Action" prefHeight="134.0" prefWidth="179.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton10" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton10Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton09" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton09Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton08" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton08Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton07" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton07Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton06" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton06Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton15" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton15Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton14" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton14Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton13" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton13Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton12" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton12Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton11" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton11Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton20" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton20Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="3">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton19" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton19Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton18" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton18Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton17" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton17Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton16" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton16Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton25" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton25Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="4">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton23" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton23Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton22" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton22Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton21" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton21Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+										<JFXButton fx:id="gridButton24" buttonType="RAISED" maxWidth="235.0" minWidth="179.0" onAction="#gridButton24Action" prefHeight="169.0" prefWidth="235.0" ripplerFill="#655252" text="Rote Wurst 2,60€" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+											<font>
+												<Font name="Cantarell Regular" size="24.0" />
+											</font>
+										</JFXButton>
+									</children>
+								</GridPane>
+								<Button fx:id="btnPrintBill" contentDisplay="CENTER" defaultButton="true" graphicTextGap="1.0" layoutX="75.0" layoutY="599.0" maxHeight="88.0" minHeight="75.0" mnemonicParsing="false" onAction="#btnPrintBillAction" prefHeight="88.0" prefWidth="258.0" text="Drucken" wrapText="true">
+									<font>
+										<Font name="Cantarell Bold" size="48.0" />
+									</font>
+								</Button>
+								<Button fx:id="btnDeleteSelectedPosition" layoutX="43.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnDeleteSelectedPositionAction" prefHeight="17.0" prefWidth="332.0" text="Ausgewählte Position löschen" textAlignment="CENTER">
+									<font>
+										<Font name="Cantarell Regular" size="20.0" />
+									</font>
+								</Button>
+								<Label fx:id="labelAllPrize" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="505.0" prefHeight="15.0" prefWidth="386.0" text="99,99 €" textAlignment="CENTER">
+									<font>
+										<Font name="Open Sans" size="70.0" />
+									</font>
+								</Label>
+								<Label fx:id="labelJobCounter" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="5.0" layoutY="45.0" prefHeight="34.0" prefWidth="392.0" text="Auftragsnummer: 128" textAlignment="CENTER">
+									<font>
+										<Font name="Cantarell Regular" size="26.0" />
+									</font>
+								</Label>
+								<Label fx:id="labelTime" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="7.0" layoutY="11.0" prefHeight="15.0" prefWidth="392.0" text="Uhrzeit: 12:15" textAlignment="CENTER">
+									<font>
+										<Font name="Cantarell Regular" size="26.0" />
+									</font>
+								</Label>
+								<JFXButton fx:id="btnLock" buttonType="RAISED" cancelButton="true" layoutX="1.0" layoutY="6.0" lineSpacing="2.0" onAction="#btnLockAction" prefHeight="42.0" prefWidth="148.0" ripplerFill="BLACK" text="Kasse sperren" textAlignment="CENTER" textFill="#c91c1c" textOverrun="LEADING_WORD_ELLIPSIS">
+									<font>
+										<Font name="Cantarell Regular" size="19.0" />
+									</font>
+								</JFXButton>
+								<Line endX="800.0" layoutX="62.0" layoutY="465.0" rotate="90.0" startX="-100.0" strokeWidth="4.0" />
+							</children>
+						</AnchorPane>
+					</content>
+				</Tab>
+			</tabs>
+		</TabPane>
+	</children>
 </AnchorPane>

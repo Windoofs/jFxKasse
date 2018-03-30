@@ -13,6 +13,7 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TitledPane;
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -59,7 +60,29 @@ public class MainWindowController
 	private TreeTableColumn<tableData, String> columnPosition;
 
 	@FXML
-	private TreeTableColumn<tableData, Integer> idSpalte = new TreeTableColumn<>(
+	private TreeTableColumn<tableData, Integer> idSpalte01 = new TreeTableColumn<>(
+			"");
+
+	@FXML
+	private TreeTableView<tableData> jobsTreeTable;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnValue;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnState;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnPositions;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnTime;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnNumber;
+
+	@FXML
+	private TreeTableColumn<tableData, Integer> idSpalte02 = new TreeTableColumn<>(
 			"");
 
 	@FXML
@@ -150,6 +173,15 @@ public class MainWindowController
 	private Button btnLock;
 
 	@FXML
+	private Button btnReprintJob;
+
+	@FXML
+	private Button bntCancelJob;
+
+	@FXML
+	private Button btnCalcStats;
+
+	@FXML
 	private Label labelAllPrize;
 
 	@FXML
@@ -158,24 +190,27 @@ public class MainWindowController
 	@FXML
 	private Label labelTime;
 
+	@FXML
+	private Label lableJobCount;
+
+	@FXML
+	private Label labelAvgJob;
+
+	@FXML
+	private Label lableAllValue;
+
+	@FXML
+	private TitledPane titlePaneStats;
+
 	private Main main;
 
 	private DBController dbc;
 
-	private String filepathXMLWin = "C:/ProgramData/PWMaster/config.xml"; // Pfad
-																									// wo
-																									// die
-																									// XML
-																									// liegt
+	// Pfad wo die XML liegt
+	private String filepathXMLWin = "C:/ProgramData/PWMaster/config.xml";
 
 	private String filepathXMLLinux = System.getProperty("user.home")
 			+ "/bin/PWMaster/config.xml"; // Pfad wo die XML liegt
-
-	private boolean showPasswort = false;
-
-	private String schluessel;
-
-	private String base32Secret;
 
 	private int id;
 
@@ -214,6 +249,24 @@ public class MainWindowController
 		dialog.getDialogPane().setContent(grid); // Setzt die GridPane auf die
 																// DialogPane
 		dialog.showAndWait();
+	}
+
+	@FXML
+	public void btnCalcStatsAction(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void btnReprintJobAction(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void bntCancelJobAction(ActionEvent event)
+	{
+		System.out.println("Button!");
 	}
 
 	@FXML
@@ -389,7 +442,7 @@ public class MainWindowController
 	public void fuelleTablle()
 	{ // Lädt die Datenbank in die Tabelle
 
-		dbc.setSchluessel(schluessel);
+		//dbc.setSchluessel(schluessel);
 		for (int i = 0; i < dbc.ladeTabelle().size(); i++) {
 			tableData helpTableData = new tableData(
 					dbc.ladeTabelle().get(i).getID(),
@@ -406,13 +459,13 @@ public class MainWindowController
 		tableCurrentOrder.setEditable(false);
 		// Setzt die Textfelder
 
-		idSpalte.setCellValueFactory(
+		idSpalte01.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().idProperty().asObject());
 		columnQuantity.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().datumProperty());
 		columnPosition.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().kontoProperty());
-		tableCurrentOrder.getColumns().add(idSpalte);
+		tableCurrentOrder.getColumns().add(idSpalte01);
 		tableCurrentOrder.getColumns().get(2).setVisible(false);
 		tableCurrentOrder.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Object>() {
@@ -423,8 +476,8 @@ public class MainWindowController
 						// last = selected; //for auto-play
 						int selected = tableCurrentOrder.getSelectionModel()
 								.getSelectedIndex(); // get selected item
-						id = idSpalte.getCellData(selected); // Ausgewählte Spalte
-						showPasswort = false;
+						id = idSpalte01.getCellData(selected); // Ausgewählte Spalte
+	
 
 						try { // Setzt den entschlüsselten Inhalt in die Textfelder
 							// tf01.setText("Verschlüsseltes Passwort von " +
@@ -501,10 +554,7 @@ public class MainWindowController
 		}
 	}
 
-	public String getSchluesselXML()
-	{ // Gibt den Schlüssel zurück für die Main
-		return schluessel;
-	}
+	
 
 	public void starteDB()
 	{ // Startet die Datenbank
@@ -517,8 +567,4 @@ public class MainWindowController
 		dbc.verbindeDatenbank();
 	}
 
-	public String getbase32Secret()
-	{ // Gibt den base32Secret zurück für die Main
-		return base32Secret;
-	}
 }

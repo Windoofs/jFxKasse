@@ -42,6 +42,7 @@ public class Main extends Application
 	{
 		this.primaryStage = primaryStage;
 		mainWindow();
+		//this.primaryStage.setResizable(false);
 	}
 
 	private void mainWindow()
@@ -52,8 +53,8 @@ public class Main extends Application
 			AnchorPane pane = loader.load();
 			// Test
 			//Test
-			// primaryStage.setWidth(1536);
-			// primaryStage.setHeight(864);
+			primaryStage.setWidth(1366);
+			primaryStage.setHeight(732);
 			primaryStage.setTitle("jFxKasse"); // Title der Stage
 
 			mwc = loader.getController();
@@ -82,6 +83,7 @@ public class Main extends Application
 
 	private void firstStart() throws Exception
 	{
+		
 		if (mwc.loadSettings()) { // Wenn XML gefunden
 			dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
 
