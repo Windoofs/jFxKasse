@@ -36,10 +36,13 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="850.0" prefWidth="1536.0">
                      <children>
-                        <TreeTableView fx:id="mainTreeTable" layoutX="34.0" layoutY="355.0" prefHeight="450.0" prefWidth="330.0">
+                        <TreeTableView fx:id="mainTreeTable" layoutX="11.0" layoutY="10.0" prefHeight="749.0" prefWidth="1514.0">
                           <columns>
-                            <TreeTableColumn fx:id="datumSpalte" prefWidth="160.0" text="Datum" />
-                            <TreeTableColumn fx:id="kontoSpalte" prefWidth="169.0" text="Konto" />
+                            <TreeTableColumn fx:id="datumSpalte" editable="false" prefWidth="90.6666259765625" text="Betrag" />
+                            <TreeTableColumn fx:id="kontoSpalte" editable="false" prefWidth="91.0" text="Zustand" />
+                              <TreeTableColumn fx:id="kontoSpalte1" editable="false" prefWidth="1140.333251953125" sortable="false" text="Positionen" />
+                              <TreeTableColumn fx:id="kontoSpalte2" editable="false" prefWidth="121.666748046875" text="Zeit" />
+                              <TreeTableColumn fx:id="kontoSpalte3" editable="false" prefWidth="72.333251953125" text="Nummer" />
                           </columns>
                         </TreeTableView>
                      </children>
@@ -52,8 +55,8 @@
                      <children>
                         <TreeTableView fx:id="tableCurrentOrder" layoutX="15.0" layoutY="123.0" prefHeight="464.0" prefWidth="374.0">
                            <columns>
-                              <TreeTableColumn fx:id="columnPosition" prefWidth="304.3333740234375" resizable="false" text="Position" />
-                              <TreeTableColumn fx:id="columnQuantity" prefWidth="80.6666259765625" resizable="false" text="Anzahl" />
+                              <TreeTableColumn fx:id="columnPosition" editable="false" prefWidth="304.3333740234375" resizable="false" sortable="false" text="Position" />
+                              <TreeTableColumn fx:id="columnQuantity" editable="false" prefWidth="80.6666259765625" resizable="false" sortable="false" text="Anzahl" />
                            </columns>
                         </TreeTableView>
                         <GridPane gridLinesVisible="true" layoutX="421.0" layoutY="15.0" prefHeight="850.0" prefWidth="1100.0">

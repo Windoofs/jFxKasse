@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -36,12 +37,48 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="850.0" prefWidth="1536.0">
                      <children>
-                        <TreeTableView fx:id="mainTreeTable" layoutX="34.0" layoutY="355.0" prefHeight="450.0" prefWidth="330.0">
+                        <TreeTableView fx:id="mainTreeTable" layoutX="11.0" layoutY="10.0" prefHeight="740.0" prefWidth="1514.0">
                           <columns>
-                            <TreeTableColumn fx:id="datumSpalte" prefWidth="160.0" text="Datum" />
-                            <TreeTableColumn fx:id="kontoSpalte" prefWidth="169.0" text="Konto" />
+                            <TreeTableColumn fx:id="datumSpalte" editable="false" prefWidth="90.6666259765625" text="Betrag" />
+                            <TreeTableColumn fx:id="kontoSpalte" editable="false" prefWidth="91.0" text="Zustand" />
+                              <TreeTableColumn fx:id="kontoSpalte1" editable="false" prefWidth="1140.333251953125" sortable="false" text="Positionen" />
+                              <TreeTableColumn fx:id="kontoSpalte2" editable="false" prefWidth="121.666748046875" text="Zeit" />
+                              <TreeTableColumn fx:id="kontoSpalte3" editable="false" prefWidth="72.333251953125" text="Nummer" />
                           </columns>
                         </TreeTableView>
+                        <Button fx:id="btnCancelJob" layoutX="10.0" layoutY="800.0" mnemonicParsing="false" onAction="#btnCancelJobAction" text="Ausgewählter Auftrag stonieren">
+                           <font>
+                              <Font name="Cantarell Regular" size="17.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnReprintJob" layoutX="340.0" layoutY="800.0" mnemonicParsing="false" onAction="#btnReprintJobAction" text="Ausgewählter Auftrag Drucken">
+                           <font>
+                              <Font name="Cantarell Regular" size="17.0" />
+                           </font>
+                        </Button>
+                        <TitledPane alignment="CENTER" collapsible="false" contentDisplay="CENTER" layoutX="1041.0" layoutY="762.0" prefHeight="107.0" prefWidth="485.0" text="Statistik - 30.03..2018 15:15 Uhr">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="59.0" prefWidth="483.0">
+                                 <children>
+                                    <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="2.0" prefHeight="34.0" prefWidth="460.0" text="Anzahl Aufträge: 2781">
+                                       <font>
+                                          <Font size="23.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="26.0" prefHeight="34.0" prefWidth="460.0" text="Durchschnittlicher Auftragswert: 12,90€">
+                                       <font>
+                                          <Font size="23.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="17.0" layoutY="50.0" prefHeight="34.0" prefWidth="460.0" text="Gesamt: 1088,48€">
+                                       <font>
+                                          <Font size="23.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
                      </children>
                   </AnchorPane>
                </content>
@@ -52,8 +89,8 @@
                      <children>
                         <TreeTableView fx:id="tableCurrentOrder" layoutX="15.0" layoutY="123.0" prefHeight="464.0" prefWidth="374.0">
                            <columns>
-                              <TreeTableColumn fx:id="columnPosition" prefWidth="304.3333740234375" resizable="false" text="Position" />
-                              <TreeTableColumn fx:id="columnQuantity" prefWidth="80.6666259765625" resizable="false" text="Anzahl" />
+                              <TreeTableColumn fx:id="columnPosition" editable="false" prefWidth="304.3333740234375" resizable="false" sortable="false" text="Position" />
+                              <TreeTableColumn fx:id="columnQuantity" editable="false" prefWidth="80.6666259765625" resizable="false" sortable="false" text="Anzahl" />
                            </columns>
                         </TreeTableView>
                         <GridPane gridLinesVisible="true" layoutX="421.0" layoutY="15.0" prefHeight="850.0" prefWidth="1100.0">
