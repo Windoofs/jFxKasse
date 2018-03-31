@@ -14,7 +14,11 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
+
 import com.jfoenix.controls.JFXColorPicker;
+//import com.sun.java.swing.action.NewAction;
+
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -50,6 +54,9 @@ public class MainWindowController
 
 	@FXML
 	private AnchorPane mainAnchorpane;
+
+	@FXML
+	private AnchorPane paneDB;
 
 	@FXML
 	private TreeTableView<tableData> tableCurrentOrder;
@@ -208,6 +215,12 @@ public class MainWindowController
 	private Button btnClearEntry;
 
 	@FXML
+	private Button btnCreateNewDatabase;
+
+	@FXML
+	private Button btnOpenFolder;
+
+	@FXML
 	private Label labelAllPrize;
 
 	@FXML
@@ -235,6 +248,12 @@ public class MainWindowController
 	private Label lableNewColor;
 
 	@FXML
+	private Label labelDBStatus;
+
+	@FXML
+	private Label labelDBName;
+
+	@FXML
 	private TitledPane titlePaneStats;
 
 	@FXML
@@ -244,19 +263,21 @@ public class MainWindowController
 	private TextField tftNewValue;
 
 	@FXML
+	private TextField tftNewDBName;
+
+	@FXML
 	private JFXColorPicker colorChooser;
 
 	private Main main;
 
 	private DBController dbc;
 
-	// Pfad wo die XML liegt
-	private String filepathXMLWin = "C:/ProgramData/PWMaster/config.xml";
-
 	private String filepathXMLLinux = System.getProperty("user.home")
-			+ "/bin/PWMaster/config.xml"; // Pfad wo die XML liegt
+			+ "/bin/jFxKasse/config.xml"; // Pfad wo die XML liegt
 
 	private int id;
+
+	private String databaseName;
 
 	@FXML
 	TreeItem<tableData> root = new TreeItem<>(new tableData(0, "0", "0"));
@@ -270,7 +291,8 @@ public class MainWindowController
 		// Erstellt einen Dialog
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Über jFxKasse");
-		dialog.setHeaderText("Informationen und Lizenzen - Version 0.7 - UI Techdemo");
+		dialog.setHeaderText(
+				"Informationen und Lizenzen - Version 0.7 - UI Techdemo");
 
 		// Erzeugt den Button
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
@@ -288,8 +310,40 @@ public class MainWindowController
 				+ " \n(c) 2018 Hendrik Schutter"), 0, 0);
 
 		dialog.getDialogPane().setContent(grid); // Setzt die GridPane auf die
-		dialog.setResizable(true);							// DialogPane
+		dialog.setResizable(true); // DialogPane
 		dialog.showAndWait();
+	}
+
+	@FXML
+	public void btnOpenFolderAction(ActionEvent event) throws IOException
+	{
+		Runtime.getRuntime().exec("xdg-open " + System.getProperty("user.home") + "/bin/jFxKasse" );
+		
+	}
+
+	@FXML
+	public void btnCreateNewDatabaseAction(ActionEvent event) throws Exception
+	{
+		System.out.println("Button!");
+
+		System.out.println(tftNewDBName.getText());
+
+		setDatabaseName(tftNewDBName.getText());
+		dbc.dbname = getDatabaseName();
+		dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
+		dbc.erstelleTabellePositionen(); 
+		dbc.erstelleTabelleJobs();
+
+		try {
+			saveSettings(getDatabaseName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		setDBLabel();
+		initUI(); // Startet die UI
+
 	}
 
 	@FXML
@@ -507,11 +561,16 @@ public class MainWindowController
 
 	public void initUI()
 	{
+		System.out.println("initUI");
+
+		tftNewDBName.setText(getDatabaseName());
+
 		tableCurrentOrder.setRoot(root);
 		tableCurrentOrder.setShowRoot(false);
 		tableCurrentOrder.setEditable(false);
 		// Setzt die Textfelder
 
+		/*
 		idSpalte01.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().idProperty().asObject());
 		columnQuantity.setCellValueFactory(
@@ -547,6 +606,8 @@ public class MainWindowController
 						}
 					}
 				});
+				
+				*/
 	}
 
 	public void setMain(Main main, DBController dbc)
@@ -564,21 +625,16 @@ public class MainWindowController
 		return heutigesDatum;
 	}
 
-	public void saveSettings(String schluessel, String base32Secret)
-			throws Exception
+	public void saveSettings(String databasename) throws Exception
 	{
 		OutputStream outputStream; // new output-stream
 		try {
-			// props.setProperty("key", crypo.verschluesseln(schluessel,
-			// crypo.getProgrammSchluessel())); //writes path into property
-			// props.setProperty("TOTPkey", crypo.verschluesseln(base32Secret,
-			// crypo.getProgrammSchluessel())); //writes path into property
-			if (System.getProperty("os.name").equals("Linux")) {
+			props.setProperty("databasename", databasename); // writes dbname into
+																				// property
+		
 				outputStream = new FileOutputStream(filepathXMLLinux);
-			} else {
-				outputStream = new FileOutputStream(filepathXMLWin);
-			}
-			props.storeToXML(outputStream, "PWMaster settings"); // writes new .xml
+			
+			props.storeToXML(outputStream, "jFxKasse settings"); // writes new .xml
 			outputStream.close();
 		} catch (IOException e) {
 		}
@@ -588,13 +644,12 @@ public class MainWindowController
 	{ // Ladt die Daten aus der XML
 		InputStream inputStream;
 		try {
-			if (System.getProperty("os.name").equals("Linux")) {
+	
 				inputStream = new FileInputStream(filepathXMLLinux);
-			} else {
-				inputStream = new FileInputStream(filepathXMLWin);
-			}
+			
 			props.loadFromXML(inputStream);
-			// schluessel = crypo.entschluesseln(props.getProperty("key"),
+			setDatabaseName(props.getProperty("databasename"));
+			// = crypo.entschluesseln(props.getProperty("key"),
 			// crypo.getProgrammSchluessel()); //liest schluessel von property
 			// base32Secret = crypo.entschluesseln(props.getProperty("TOTPkey"),
 			// crypo.getProgrammSchluessel()); //liest schluessel von property
@@ -611,10 +666,35 @@ public class MainWindowController
 		dbc.verbindeDatenbank();
 	}
 
-	public void erzeugeDB()
-	{ // Erzeuge die Datenbank
-		dbc.erstelleDatenbank();
-		dbc.verbindeDatenbank();
+	
+
+	public String getDatabaseName()
+	{
+		return databaseName;
+	}
+
+	public void setDatabaseName(String NewDatabaseName)
+	{
+		databaseName = NewDatabaseName;
+	}
+
+	public void setDBLabel() throws Exception
+	{
+		if (loadSettings() == true) {
+			labelDBStatus
+					.setText("Geladene Datenbank: " + getDatabaseName() + ".db");
+			btnCreateNewDatabase.setDisable(true);
+			tftNewDBName.setDisable(true);
+			labelDBName.setTooltip(new Tooltip(
+					"Um eine neue Datenbank zu erzeugen muss die vorherige config.xml und "
+						+ getDatabaseName() + ".db gelöscht werden! Anwendung danach neustarten!"));
+			labelDBStatus.setTooltip(new Tooltip(
+					"Um eine neue Datenbank zu erzeugen muss die vorherige config.xml und "
+						+ getDatabaseName() + ".db gelöscht werden! Anwendung danach neustarten!"));
+		} else {
+			labelDBStatus.setText("Keine Datenbank gefunden!");
+		}
+
 	}
 
 }

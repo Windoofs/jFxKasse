@@ -61,10 +61,12 @@ public class Main extends Application
 			mwc.setMain(this, dbc);
 
 			firstStart(); // Prüft ob das Programm zuvor gestartet wurde
-
-			dbc.main(); // Startet die Datenbank
-			mwc.initUI(); // Startet die UI
-			mwc.fuelleTablle(); // Ladt die Einträge in die Tabelle
+		
+			
+			
+		//	dbc.main(); // Startet die Datenbank
+			
+			//mwc.fuelleTablle(); // Ladt die Einträge in die Tabelle
 
 			Scene scene = new Scene(pane);
 			scene.getStylesheets()
@@ -85,30 +87,35 @@ public class Main extends Application
 	{
 		
 		if (mwc.loadSettings()) { // Wenn XML gefunden
+			System.out.println("XML gefunden!");
+			mwc.initUI(); // Startet die UI
+			mwc.setDBLabel();
+			dbc.dbname = mwc.getDatabaseName();
 			dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
-
+			
+			
 		} else { // Wenn keine XML gefunden --> erster Start
 			System.out.println("keine XML gefunden!");
 			if (System.getProperty("os.name").equals("Linux")) {
 
 				File dir = new File(
-						System.getProperty("user.home") + "/bin/PWMaster"); // Erstellt
+						System.getProperty("user.home") + "/bin/jFxKasse"); // Erstellt
 																								// den
 																								// Unterordner
 				dir.mkdir(); // Erstellt den Unterordner
 			} else {
-				File dir = new File("C:/ProgramData/PWMaster/"); // Erstellt den
+				File dir = new File("C:/ProgramData/jFxKasse/"); // Erstellt den
 																					// Unterordner
 				dir.mkdir(); // Erstellt den Unterordner
 			}
 
-			mwc.saveSettings(schluesselNutzer, "dd"); // speichert das Passwort und
+		//	mwc.saveSettings(mwc.getDatabaseName(), "dd"); // speichert das Passwort und
 																	// den Individueller
 																	// Schlüssel für die API in
 																	// der XML
-			dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
-			dbc.erstelleDatenbank(); // Neue Datenbank-Datei wird erstellt
-			System.exit(0); // Programm wird beendet
+			//dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
+			//dbc.erstelleDatenbank(); // Neue Datenbank-Datei wird erstellt
+			//System.exit(0); // Programm wird beendet
 		}
 	}
 

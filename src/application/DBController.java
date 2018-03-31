@@ -15,26 +15,24 @@ class DBController
 
 	private Connection connection;
 
-	private String DB_PATH_Win = "C:/ProgramData/PWMaster/datenbank.db";
-
 	private String DB_PATH_Linux = System.getProperty("user.home")
-			+ "/bin/PWMaster/datenbank.db";
+			+ "/bin/jFxKasse/";
 
+	public String dbname;
+	
 	private Main main;
 
 	// private Cryption crypo = new Cryption();
 	private String schluessel; // Für Ver-/Entschlüsselung
+	
+	boolean databasepresent = false;
 
 	public void main()
 	{
 		try {
-			if (System.getProperty("os.name").equals("Linux")) {
 				connection = DriverManager
-						.getConnection("jdbc:sqlite:" + DB_PATH_Linux);
-			} else {
-				connection = DriverManager
-						.getConnection("jdbc:sqlite:" + DB_PATH_Win);
-			}
+						.getConnection("jdbc:sqlite:" + DB_PATH_Linux + dbname + ".db");
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,18 +46,16 @@ class DBController
 
 	public void verbindeDatenbank()
 	{ // Verbinde mit der Datenbank-Datei
+		System.out.println("Verbinde ... DB name: " + dbname);
 		try {
 			if (connection != null)
 				return;
-			if (System.getProperty("os.name").equals("Linux")) {
-				connection = DriverManager
-						.getConnection("jdbc:sqlite:" + DB_PATH_Linux);
-			} else {
-				connection = DriverManager
-						.getConnection("jdbc:sqlite:" + DB_PATH_Win);
-			}
+			
+				connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH_Linux + dbname + ".db");
+			
+		
 			if (!connection.isClosed())
-				System.out.println();
+				System.out.println("DB Datei-Verbindung erstellt");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -103,13 +99,29 @@ class DBController
 		}
 	}
 
-	public void erstelleDatenbank()
+	public void erstelleTabellePositionen()
 	{ // Erstelle Tabelle mit Reihen
+		System.out.println("Erstelle Tabelle Positionen");
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("DROP TABLE IF EXISTS konten;");
+			stmt.executeUpdate("DROP TABLE IF EXISTS positionen;");
 			stmt.executeUpdate(
-					"CREATE TABLE konten (id, datum, konto, nutzername, email, passwort);");
+					"CREATE TABLE positionen (id, name, value, color);");
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void erstelleTabelleJobs()
+	{ // Erstelle Tabelle mit Reihen
+		System.out.println("Erstelle Tabelle Jobs");
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("DROP TABLE IF EXISTS jobs;");
+			stmt.executeUpdate(
+					"CREATE TABLE jobs (id, time, positionen, state, value);");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
@@ -365,6 +377,14 @@ class DBController
 	public void setSchluessel(String pSchluessel)
 	{ // Setzt den Schlüssel für die Ver-/Entschlüsslung
 		schluessel = pSchluessel;
+	}
+	
+	public boolean getDatabasePresent() {
+		return databasepresent;
+	}
+	
+	public void setDatabasePresent(boolean status) {
+		databasepresent = status;
 	}
 
 }
