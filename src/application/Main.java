@@ -53,8 +53,8 @@ public class Main extends Application
 			AnchorPane pane = loader.load();
 			// Test
 			//Test
-			primaryStage.setWidth(1366);
-			primaryStage.setHeight(732);
+			//primaryStage.setWidth(1366);
+			//primaryStage.setHeight(732);
 			primaryStage.setTitle("jFxKasse"); // Title der Stage
 
 			mwc = loader.getController();

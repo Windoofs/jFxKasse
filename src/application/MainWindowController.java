@@ -14,6 +14,7 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TitledPane;
+import com.jfoenix.controls.JFXColorPicker;
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -83,6 +84,25 @@ public class MainWindowController
 
 	@FXML
 	private TreeTableColumn<tableData, Integer> idSpalte02 = new TreeTableColumn<>(
+			"");
+
+	@FXML
+	private TreeTableView<tableData> entryTreeTable;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnColor;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnPrize;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnPositionsEdit;
+
+	@FXML
+	private TreeTableColumn<tableData, String> columnPosnumber;
+
+	@FXML
+	private TreeTableColumn<tableData, Integer> idSpalte03 = new TreeTableColumn<>(
 			"");
 
 	@FXML
@@ -182,6 +202,12 @@ public class MainWindowController
 	private Button btnCalcStats;
 
 	@FXML
+	private Button btnSaveEntry;
+
+	@FXML
+	private Button btnClearEntry;
+
+	@FXML
 	private Label labelAllPrize;
 
 	@FXML
@@ -200,7 +226,25 @@ public class MainWindowController
 	private Label lableAllValue;
 
 	@FXML
+	private Label lableNewPosition;
+
+	@FXML
+	private Label labelNewValue;
+
+	@FXML
+	private Label lableNewColor;
+
+	@FXML
 	private TitledPane titlePaneStats;
+
+	@FXML
+	private TextField tftNewPosition;
+
+	@FXML
+	private TextField tftNewValue;
+
+	@FXML
+	private JFXColorPicker colorChooser;
 
 	private Main main;
 
@@ -225,8 +269,8 @@ public class MainWindowController
 
 		// Erstellt einen Dialog
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
-		dialog.setTitle("Über PWMaster");
-		dialog.setHeaderText("Informationen und Lizenzen - Version 0.5");
+		dialog.setTitle("Über jFxKasse");
+		dialog.setHeaderText("Informationen und Lizenzen - Version 0.7 - UI Techdemo");
 
 		// Erzeugt den Button
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
@@ -238,17 +282,26 @@ public class MainWindowController
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		grid.add(new Label("Datenbank: sqlite.org - Public Domain"
-				+ "\nBASE64Decoder: java2s.com/Code/Jar/s/DownloadsunmiscBASE64Decoderjar.htm - GPLv2"
-				+ "\nCrypo: blog.axxg.de/ - Copyright  2013 AxxG  Alexander Grösel"
-				+ " \nzwei Faktoren: github.com/j256/two-factor-auth - ISC License"
 				+ " \nUI Design: eclipse.org/efxclipse/install.html - Eclipse Public License 1.0"
 				+ " \nUI - Datenbank Integration: basierend auf Project-HomeFlix - github.com/Seil0/Project-HomeFlix - GPLv3 \n"
-				+ " \nMaintainer: hendrik.schutter@icloud.com"
-				+ " \n(c) 2017 Hendrik Schutter"), 0, 0);
+				+ " \nMaintainer: hendrik.schutter@coptersicht.de"
+				+ " \n(c) 2018 Hendrik Schutter"), 0, 0);
 
 		dialog.getDialogPane().setContent(grid); // Setzt die GridPane auf die
-																// DialogPane
+		dialog.setResizable(true);							// DialogPane
 		dialog.showAndWait();
+	}
+
+	@FXML
+	public void btnSaveEntryAction(ActionEvent event)
+	{
+		System.out.println("Button!");
+	}
+
+	@FXML
+	public void btnClearEntryAction(ActionEvent event)
+	{
+		System.out.println("Button!");
 	}
 
 	@FXML
@@ -442,7 +495,7 @@ public class MainWindowController
 	public void fuelleTablle()
 	{ // Lädt die Datenbank in die Tabelle
 
-		//dbc.setSchluessel(schluessel);
+		// dbc.setSchluessel(schluessel);
 		for (int i = 0; i < dbc.ladeTabelle().size(); i++) {
 			tableData helpTableData = new tableData(
 					dbc.ladeTabelle().get(i).getID(),
@@ -477,7 +530,6 @@ public class MainWindowController
 						int selected = tableCurrentOrder.getSelectionModel()
 								.getSelectedIndex(); // get selected item
 						id = idSpalte01.getCellData(selected); // Ausgewählte Spalte
-	
 
 						try { // Setzt den entschlüsselten Inhalt in die Textfelder
 							// tf01.setText("Verschlüsseltes Passwort von " +
@@ -553,8 +605,6 @@ public class MainWindowController
 			return false;
 		}
 	}
-
-	
 
 	public void starteDB()
 	{ // Startet die Datenbank
