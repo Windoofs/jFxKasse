@@ -279,6 +279,8 @@ public class MainWindowController
 	private String selectedColorName;
 
 	private String databaseName;
+	
+	private boolean lockState = false;
 
 	@FXML
 	TreeItem<tableData> rootCurrentJob = new TreeItem<>(
@@ -301,7 +303,7 @@ public class MainWindowController
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Über jFxKasse");
 		dialog.setHeaderText(
-				"Informationen und Lizenzen - Version 0.8 - UI Techdemo");
+				"Informationen und Lizenzen - Version 0.9 - Techdemo");
 
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
 
@@ -360,6 +362,7 @@ public class MainWindowController
 		dbc.setColor(idPositionen, getColorCodes(selectedColorName));
 
 		fillTablePositionen(); // fill TreeTable 'Positionen'
+		loadGridButtons();
 
 	}
 
@@ -395,7 +398,17 @@ public class MainWindowController
 	@FXML
 	public void btnLockAction(ActionEvent event)
 	{
-		System.out.println("Button!");
+		lockState = !lockState;
+		
+		blockUI(lockState);
+		
+		
+		if(lockState) {
+			btnLock.setText("Kasse entsperren");
+		}else {
+			btnLock.setText("Kasse sperren");
+		}
+		
 	}
 
 	@FXML
@@ -583,8 +596,9 @@ public class MainWindowController
 		System.out.println("initUI");
 		tftNewDBName.setText(getDatabaseName());
 		initPositionen();
+
+		
 	}
-	
 
 	private void initPositionen()
 	{
@@ -665,39 +679,33 @@ public class MainWindowController
 		});
 
 	}
-	
 
 	public void setMain(Main main, DBController dbc)
 	{
 		this.main = main;
 		this.dbc = dbc;
 	}
-	
-	
-	
 
 	public String getSystemDatum()
-	{ 
+	{
 		java.util.Date now = new java.util.Date();
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
 				"dd.MM.yyyy");
 		String heutigesDatum = sdf.format(now);
 		return heutigesDatum;
 	}
-	
 
 	public void saveSettings(String databasename) throws Exception
-	{ //Save settings to config.xml
+	{ // Save settings to config.xml
 		OutputStream outputStream;
 		try {
 			props.setProperty("databasename", databasename);
 			outputStream = new FileOutputStream(filepathXMLLinux);
-			props.storeToXML(outputStream, "jFxKasse settings"); 
+			props.storeToXML(outputStream, "jFxKasse settings");
 			outputStream.close();
 		} catch (IOException e) {
 		}
 	}
-	
 
 	public boolean loadSettings() throws Exception
 	{ // reads the settings from config.xml
@@ -713,21 +721,16 @@ public class MainWindowController
 			return false;
 		}
 	}
-	
-
 
 	public String getDatabaseName()
 	{
 		return databaseName;
 	}
-	
 
 	public void setDatabaseName(String NewDatabaseName)
 	{
 		databaseName = NewDatabaseName;
 	}
-	
-	
 
 	public void setDBLabel() throws Exception
 	{
@@ -748,7 +751,6 @@ public class MainWindowController
 			labelDBStatus.setText("Keine Datenbank gefunden!");
 		}
 	}
-	
 
 	private String getColorCodes(String pColorName)
 	{
@@ -774,8 +776,6 @@ public class MainWindowController
 			return "#FFFFFF";
 		}
 	}
-	
-	
 
 	private String getColorNames(String pColorCode)
 	{
@@ -801,7 +801,6 @@ public class MainWindowController
 			return "Farbe";
 		}
 	}
-	
 
 	private Integer getColorID(String pColorCode)
 	{
@@ -827,7 +826,6 @@ public class MainWindowController
 			return 0;
 		}
 	}
-	
 
 	public void blockUI(boolean pState)
 	{
@@ -838,32 +836,11 @@ public class MainWindowController
 		btnReprintJob.setDisable(pState);
 		btnSaveEntry.setDisable(pState);
 		btnCancelJob.setDisable(pState);
-		gridButton01.setDisable(pState);
-		gridButton02.setDisable(pState);
-		gridButton03.setDisable(pState);
-		gridButton04.setDisable(pState);
-		gridButton05.setDisable(pState);
-		gridButton06.setDisable(pState);
-		gridButton07.setDisable(pState);
-		gridButton08.setDisable(pState);
-		gridButton09.setDisable(pState);
-		gridButton10.setDisable(pState);
-		gridButton11.setDisable(pState);
-		gridButton12.setDisable(pState);
-		gridButton13.setDisable(pState);
-		gridButton14.setDisable(pState);
-		gridButton15.setDisable(pState);
-		gridButton16.setDisable(pState);
-		gridButton17.setDisable(pState);
-		gridButton18.setDisable(pState);
-		gridButton19.setDisable(pState);
-		gridButton20.setDisable(pState);
-		gridButton21.setDisable(pState);
-		gridButton22.setDisable(pState);
-		gridButton23.setDisable(pState);
-		gridButton24.setDisable(pState);
-		gridButton25.setDisable(pState);
 
+		for(int i = 0; i < 25; i++) {
+			getButtonByID(i).setDisable(pState);
+		}
+	
 		tftNewPosition.setDisable(pState);
 		tftNewValue.setDisable(pState);
 		colorChoise.setDisable(pState);
@@ -876,6 +853,88 @@ public class MainWindowController
 		labelJobCounter.setVisible(!pState);
 
 		titlePaneStats.setVisible(!pState);
+	}
+
+	public void loadGridButtons()
+	{
+
+		for (int i = 0; i < 25; i++) {
+			
+			getButtonByID(i).setText(dbc.getName(i+1));
+			getButtonByID(i).setStyle("-fx-background-color: "+ dbc.getColor(i+1) +";");
+			
+		}
+		
+		for (int i = 0; i < 25; i++) {
+			
+			if(dbc.getName(i+1).equals("Noch frei")) {
+				getButtonByID(i).setVisible(false);
+			}else {
+				getButtonByID(i).setVisible(true);
+			}
+			
+			
+		}
+		
+		
+		
+	}
+	
+	public Button getButtonByID(int pID) {
+		switch (pID) {
+		case 0:
+			return gridButton01;
+		case 1:
+			return gridButton02;
+		case 2:
+			return gridButton03;
+		case 3:
+			return gridButton04;
+		case 4:
+			return gridButton05;
+		case 5:
+			return gridButton06;
+		case 6:
+			return gridButton07;
+		case 7:
+			return gridButton08;
+		case 8:
+			return gridButton09;
+		case 9:
+			return gridButton10;
+		case 10:
+			return gridButton11;
+		case 11:
+			return gridButton12;
+		case 12:
+			return gridButton13;
+		case 13:
+			return gridButton14;
+		case 14:
+			return gridButton15;
+		case 15:
+			return gridButton16;
+		case 16:
+			return gridButton17;
+		case 17:
+			return gridButton18;
+		case 18:
+			return gridButton19;
+		case 19:
+			return gridButton20;
+		case 20:
+			return gridButton21;
+		case 21:
+			return gridButton22;
+		case 22:
+			return gridButton23;
+		case 23:
+			return gridButton24;
+		case 24:
+			return gridButton25;
+		default:
+			return gridButton01;
+		}
 	}
 
 }

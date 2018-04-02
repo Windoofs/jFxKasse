@@ -358,7 +358,7 @@
 										<Font name="Cantarell Regular" size="26.0" />
 									</font>
 								</Label>
-								<JFXButton fx:id="btnLock" buttonType="RAISED" cancelButton="true" layoutX="1.0" layoutY="6.0" lineSpacing="2.0" onAction="#btnLockAction" prefHeight="42.0" prefWidth="148.0" ripplerFill="BLACK" text="Kasse sperren" textAlignment="CENTER" textFill="#c91c1c" textOverrun="LEADING_WORD_ELLIPSIS">
+								<JFXButton fx:id="btnLock" buttonType="RAISED" cancelButton="true" layoutX="1.0" layoutY="6.0" lineSpacing="2.0" onAction="#btnLockAction" prefHeight="42.0" prefWidth="180.0" ripplerFill="BLACK" text="Kasse sperren" textAlignment="CENTER" textFill="#c91c1c" textOverrun="LEADING_WORD_ELLIPSIS">
 									<font>
 										<Font name="Cantarell Regular" size="19.0" />
 									</font>
