@@ -75,18 +75,18 @@ class DBController
 		});
 	}
 
-	public void fuellenDatenbank(int pID, String pDatum, String pKonto,
-			String pNutzername, String pEmail, String pPasswort)
+	public void fuellenPositionen(int pID, String pName, float pValue,
+			String pColor)
 	{ // Neuen Eintrag erstellen
+		System.out.println("Erstelle neuen positionen eintrag");
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"INSERT INTO konten VALUES (?, ?, ?, ?, ?, ?);");
+					"INSERT INTO positionen VALUES (?, ?, ?, ?);");
 			ps.setInt(1, pID); // Primärschlässel
-			ps.setString(2, pDatum);
-			ps.setString(3, pKonto);
-			ps.setString(4, pNutzername);
-			ps.setString(5, pEmail);
-			ps.setString(6, pPasswort);
+			ps.setString(2, pName);
+			ps.setFloat(3, pValue);
+			ps.setString(4, pColor);
+		
 
 			ps.addBatch();
 			connection.setAutoCommit(false);
@@ -111,8 +111,12 @@ class DBController
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
 		}
+		
+		for(int i = 0; i < 25; i++) {
+			fuellenPositionen(i+1, "Noch frei", (float) 0.00, "#FAF0E6");
+		}
+		
 	}
-	
 	
 	public void erstelleTabelleJobs()
 	{ // Erstelle Tabelle mit Reihen
@@ -138,17 +142,17 @@ class DBController
 		}
 	}
 
-	private void ausgebenSyso()
-	{ // Debugging Ausgabe der kompletten Datenbank
+	public void ausgebenSysoPositionen()
+	{ // Debugging Ausgabe der kompletten Tabelle
+		System.out.println("Print positionen");
 		try {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM konten;");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM positionen;");
 			while (rs.next()) {
-				System.out.println("Datum = " + rs.getString("datum"));
-				System.out.println("Konto = " + rs.getString("konto"));
-				System.out.println("Nutzername = " + rs.getString("nutzername"));
-				System.out.println("E-Mail = " + rs.getString("email"));
-				System.out.println("Passwort = " + rs.getString("passwort"));
+				System.out.println("id = " + rs.getString("id"));
+				System.out.println("name = " + rs.getString("name"));
+				System.out.println("vale = " + rs.getString("value"));
+				System.out.println("color = " + rs.getString("color"));
 				System.out.println(" ");
 			}
 
@@ -158,13 +162,13 @@ class DBController
 		}
 	}
 
-	public String getDatum(int pID)
+	public String getName(int pID)
 	{ // Gibt das Datum zurück
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, datum FROM konten WHERE id = " + pID + ";");
-			return rs.getString("datum");
+					"SELECT id, name FROM positionen WHERE id = " + pID + ";");
+			return rs.getString("name");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
@@ -172,13 +176,13 @@ class DBController
 		}
 	}
 
-	public String getKonto(int pID)
+	public String getValue(int pID)
 	{ // Gibt das Konto zurück
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, konto FROM konten WHERE id = " + pID + ";");
-			return rs.getString("konto");
+					"SELECT id, value FROM positionen WHERE id = " + pID + ";");
+			return rs.getString("value");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
@@ -186,13 +190,13 @@ class DBController
 		}
 	}
 
-	public String getNutzername(int pID)
+	public String getColor(int pID)
 	{ // Gibt den Nutzernamen zurück
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, nutzername FROM konten WHERE id = " + pID + ";");
-			return rs.getString("nutzername");
+					"SELECT id, color FROM positionen WHERE id = " + pID + ";");
+			return rs.getString("color");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
@@ -231,11 +235,11 @@ class DBController
 
 	}
 
-	public void setDatum(int pID, String pDatum)
+	public void setName(int pID, String pName)
 	{ // Setzt das Datum
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("UPDATE konten SET datum = '" + pDatum
+			stmt.executeUpdate("UPDATE positionen SET name = '" + pName
 					+ "'WHERE id =" + pID + ";");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
@@ -243,11 +247,11 @@ class DBController
 		}
 	}
 
-	public void setKonto(int pID, String pKonto)
+	public void setValue(int pID, String pValue)
 	{ // Setzt das Konto
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("UPDATE konten SET konto = '" + pKonto
+			stmt.executeUpdate("UPDATE positionen SET value = '" + pValue
 					+ "'WHERE id =" + pID + ";");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
@@ -255,11 +259,11 @@ class DBController
 		}
 	}
 
-	public void setNutername(int pID, String pNutername)
+	public void setColor(int pID, String pColor)
 	{ // Setzt den Nutzername
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("UPDATE konten SET nutzername = '" + pNutername
+			stmt.executeUpdate("UPDATE positionen SET color = '" + pColor
 					+ "'WHERE id =" + pID + ";");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
@@ -350,18 +354,16 @@ class DBController
 		return neueID;
 	}
 
-	public ArrayList<tableData> ladeTabelle()
+	public ArrayList<tableDataPositionen> ladeTabellePositionen()
 	{ // Gibt ein Objekt daten mit allen Einträgen der DB zurück
-		ArrayList<tableData> daten = new ArrayList<>();
+		ArrayList<tableDataPositionen> daten = new ArrayList<>();
 		try {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM konten;");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM positionen;");
 			while (rs.next()) {
 				try {
 					// Entschlüsselte Daten werden als Datenobjekt gespeichert
-					// daten.add(new tableData(rs.getInt("id"),
-					// crypo.entschluesseln(rs.getString("datum"), schluessel),
-					// crypo.entschluesseln(rs.getString("konto"),schluessel)));
+					daten.add(new tableDataPositionen(rs.getInt("id"), rs.getString("name"), rs.getString("value"), rs.getString("color")));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -379,12 +381,5 @@ class DBController
 		schluessel = pSchluessel;
 	}
 	
-	public boolean getDatabasePresent() {
-		return databasepresent;
-	}
-	
-	public void setDatabasePresent(boolean status) {
-		databasepresent = status;
-	}
 
 }

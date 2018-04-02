@@ -92,10 +92,12 @@ public class Main extends Application
 			mwc.setDBLabel();
 			dbc.dbname = mwc.getDatabaseName();
 			dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
+			mwc.fuelleTabllePositionen();
 			
 			
 		} else { // Wenn keine XML gefunden --> erster Start
 			System.out.println("keine XML gefunden!");
+			mwc.blockUI(true);
 			if (System.getProperty("os.name").equals("Linux")) {
 
 				File dir = new File(
