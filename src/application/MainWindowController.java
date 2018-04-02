@@ -15,11 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
-
 import javafx.scene.control.ChoiceBox;
-
-//import com.sun.java.swing.action.NewAction;
-
 import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -35,10 +31,8 @@ import java.net.URISyntaxException;
 import java.sql.DriverManager;
 import java.util.Optional;
 import java.util.Properties;
-
 import javax.security.auth.callback.Callback;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -286,9 +280,6 @@ public class MainWindowController
 
 	private String databaseName;
 
-	// private ObservableList<String> color =
-	// FXCollections.observableArrayList("English", "Deutsch");
-
 	@FXML
 	TreeItem<tableData> rootCurrentJob = new TreeItem<>(
 			new tableData(0, "0", "0"));
@@ -304,18 +295,16 @@ public class MainWindowController
 
 	@FXML
 	public void ueberbtnAction(ActionEvent event)
-	{ // Öffnet den Über-Dialog
+	{ // opens the 'Über' dialog
 
-		// Erstellt einen Dialog
+		// creates a dialog
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Über jFxKasse");
 		dialog.setHeaderText(
-				"Informationen und Lizenzen - Version 0.7 - UI Techdemo");
+				"Informationen und Lizenzen - Version 0.8 - UI Techdemo");
 
-		// Erzeugt den Button
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
 
-		// Erzeugt die Textfelder und Label
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
@@ -343,27 +332,21 @@ public class MainWindowController
 	@FXML
 	public void btnCreateNewDatabaseAction(ActionEvent event) throws Exception
 	{
-		System.out.println("Button!");
-
-		System.out.println(tftNewDBName.getText());
-
 		setDatabaseName(tftNewDBName.getText());
 		dbc.dbname = getDatabaseName();
-		dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
-		dbc.erstelleTabellePositionen();
-		dbc.erstelleTabelleJobs();
-
+		dbc.connectDatabase(); // establish DB connection
+		dbc.createTablePositionen(); // Create new table
+		dbc.erstelleTabelleJobs(); // Create new table
 		try {
 			saveSettings(getDatabaseName());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		setDBLabel();
-		blockUI(false);
-		fuelleTabllePositionen();
-		initUI(); // Startet die UI
+		setDBLabel(); // Set new databese labels
+		blockUI(false); // unlock UI elements that need DB
+		fillTablePositionen(); // fill TreeTable 'Positionen'
+		initUI(); // Starting the UI elements
 
 	}
 
@@ -376,14 +359,19 @@ public class MainWindowController
 		dbc.setValue(idPositionen, tftNewValue.getText());
 		dbc.setColor(idPositionen, getColorCodes(selectedColorName));
 
-		fuelleTabllePositionen();
+		fillTablePositionen(); // fill TreeTable 'Positionen'
 
 	}
 
 	@FXML
 	public void btnClearEntryAction(ActionEvent event)
 	{
-		System.out.println("Button!");
+		// set default values
+		dbc.setName(idPositionen, "Noch frei");
+		dbc.setValue(idPositionen, "0.00");
+		dbc.setColor(idPositionen, "#FAF0E6");
+
+		fillTablePositionen(); // fill TreeTable 'Positionen'
 	}
 
 	@FXML
@@ -395,8 +383,7 @@ public class MainWindowController
 	@FXML
 	public void btnReprintJobAction(ActionEvent event)
 	{
-		// System.out.println("fuelleTabellePositionen");
-		// fuelleTabllePositionen();
+
 	}
 
 	@FXML
@@ -409,7 +396,6 @@ public class MainWindowController
 	public void btnLockAction(ActionEvent event)
 	{
 		System.out.println("Button!");
-		dbc.ausgebenSysoPositionen();
 	}
 
 	@FXML
@@ -575,12 +561,8 @@ public class MainWindowController
 	}
 
 	@FXML
-
-	public void fuelleTabllePositionen()
-	{ // Lädt die Datenbank in die Tabelle
-
-		// dbc.setSchluessel(schluessel);
-
+	public void fillTablePositionen()
+	{ // loads the table in the TreeTableView
 		rootPositionen.getChildren().remove(0,
 				rootPositionen.getChildren().size());
 
@@ -588,7 +570,7 @@ public class MainWindowController
 			tableDataPositionen helpTableData = new tableDataPositionen(
 					dbc.ladeTabellePositionen().get(i).getID(),
 					dbc.ladeTabellePositionen().get(i).getName(),
-					dbc.ladeTabellePositionen().get(i).getValue(),
+					dbc.ladeTabellePositionen().get(i).getValue() + " €",
 					getColorNames(dbc.ladeTabellePositionen().get(i).getColor()));
 
 			rootPositionen.getChildren()
@@ -599,12 +581,10 @@ public class MainWindowController
 	public void initUI()
 	{
 		System.out.println("initUI");
-
 		tftNewDBName.setText(getDatabaseName());
-
 		initPositionen();
-
 	}
+	
 
 	private void initPositionen()
 	{
@@ -668,51 +648,64 @@ public class MainWindowController
 					}
 				});
 
+		columnPosnumber.setStyle("-fx-alignment: CENTER;");
+		columnPositionsEdit.setStyle("-fx-alignment: CENTER;");
+		columnPrize.setStyle("-fx-alignment: CENTER;");
+		columnColor.setStyle("-fx-alignment: CENTER;");
+
+		tftNewValue.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable,
+					String oldValue, String newValue)
+			{
+				if (!newValue.matches("\\d{0,7}([\\.]\\d{0,2})?")) {
+					tftNewValue.setText(oldValue);
+				}
+			}
+		});
+
 	}
+	
 
 	public void setMain(Main main, DBController dbc)
 	{
 		this.main = main;
 		this.dbc = dbc;
 	}
+	
+	
+	
 
 	public String getSystemDatum()
-	{ // Gibt das System-Datum zurück
+	{ 
 		java.util.Date now = new java.util.Date();
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
 				"dd.MM.yyyy");
 		String heutigesDatum = sdf.format(now);
 		return heutigesDatum;
 	}
+	
 
 	public void saveSettings(String databasename) throws Exception
-	{
-		OutputStream outputStream; // new output-stream
+	{ //Save settings to config.xml
+		OutputStream outputStream;
 		try {
-			props.setProperty("databasename", databasename); // writes dbname into
-																				// property
-
+			props.setProperty("databasename", databasename);
 			outputStream = new FileOutputStream(filepathXMLLinux);
-
-			props.storeToXML(outputStream, "jFxKasse settings"); // writes new .xml
+			props.storeToXML(outputStream, "jFxKasse settings"); 
 			outputStream.close();
 		} catch (IOException e) {
 		}
 	}
+	
 
 	public boolean loadSettings() throws Exception
-	{ // Ladt die Daten aus der XML
+	{ // reads the settings from config.xml
 		InputStream inputStream;
 		try {
-
 			inputStream = new FileInputStream(filepathXMLLinux);
-
 			props.loadFromXML(inputStream);
 			setDatabaseName(props.getProperty("databasename"));
-			// = crypo.entschluesseln(props.getProperty("key"),
-			// crypo.getProgrammSchluessel()); //liest schluessel von property
-			// base32Secret = crypo.entschluesseln(props.getProperty("TOTPkey"),
-			// crypo.getProgrammSchluessel()); //liest schluessel von property
 			inputStream.close();
 			return true;
 		} catch (IOException e) {
@@ -720,21 +713,21 @@ public class MainWindowController
 			return false;
 		}
 	}
+	
 
-	public void starteDB()
-	{ // Startet die Datenbank
-		dbc.verbindeDatenbank();
-	}
 
 	public String getDatabaseName()
 	{
 		return databaseName;
 	}
+	
 
 	public void setDatabaseName(String NewDatabaseName)
 	{
 		databaseName = NewDatabaseName;
 	}
+	
+	
 
 	public void setDBLabel() throws Exception
 	{
@@ -754,8 +747,8 @@ public class MainWindowController
 		} else {
 			labelDBStatus.setText("Keine Datenbank gefunden!");
 		}
-
 	}
+	
 
 	private String getColorCodes(String pColorName)
 	{
@@ -781,6 +774,8 @@ public class MainWindowController
 			return "#FFFFFF";
 		}
 	}
+	
+	
 
 	private String getColorNames(String pColorCode)
 	{
@@ -806,6 +801,7 @@ public class MainWindowController
 			return "Farbe";
 		}
 	}
+	
 
 	private Integer getColorID(String pColorCode)
 	{
@@ -830,12 +826,11 @@ public class MainWindowController
 		default:
 			return 0;
 		}
-
 	}
+	
 
 	public void blockUI(boolean pState)
 	{
-
 		btnCalcStats.setDisable(pState);
 		btnClearEntry.setDisable(pState);
 		btnDeleteSelectedPosition.setDisable(pState);
@@ -881,7 +876,6 @@ public class MainWindowController
 		labelJobCounter.setVisible(!pState);
 
 		titlePaneStats.setVisible(!pState);
-
 	}
 
 }

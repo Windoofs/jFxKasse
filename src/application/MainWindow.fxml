@@ -68,18 +68,21 @@
                      <children>
                         <TreeTableView fx:id="entryTreeTable" layoutX="11.0" layoutY="10.0" prefHeight="502.0" prefWidth="1346.0">
                            <columns>
-                              <TreeTableColumn fx:id="columnColor" editable="false" prefWidth="135.0" resizable="false" sortable="false" text="Farbe" />
-                              <TreeTableColumn fx:id="columnPrize" editable="false" prefWidth="117.0" resizable="false" sortable="false" text="Preis" />
-                              <TreeTableColumn fx:id="columnPositionsEdit" editable="false" prefWidth="982.0" resizable="false" sortable="false" text="Positionen" />
-                              <TreeTableColumn fx:id="columnPosnumber" editable="false" maxWidth="3000.0" prefWidth="111.0" resizable="false" sortable="false" text="Nummer" />
+                              <TreeTableColumn fx:id="columnColor" editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Farbe" />
+                              <TreeTableColumn fx:id="columnPrize" editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Preis" />
+                              <TreeTableColumn fx:id="columnPositionsEdit" editable="false" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" resizable="false" sortable="false" text="Positionen" />
+                              <TreeTableColumn fx:id="columnPosnumber" editable="false" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false" sortable="false" text="Nummer" />
                            </columns>
+                           <columnResizePolicy>
+                              <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                         </TreeTableView>
-                        <Button fx:id="btnSaveEntry" layoutX="66.0" layoutY="620.0" mnemonicParsing="false" onAction="#btnSaveEntryAction" text="Ausgewählten Eintrag speichern">
+                        <Button fx:id="btnSaveEntry" layoutX="494.0" layoutY="631.0" mnemonicParsing="false" onAction="#btnSaveEntryAction" text="Ausgewählten Eintrag speichern">
                            <font>
                               <Font name="Cantarell Regular" size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnClearEntry" layoutX="437.0" layoutY="620.0" mnemonicParsing="false" onAction="#btnClearEntryAction" text="Ausgewählten Eintrag zurücksetzten">
+                        <Button fx:id="btnClearEntry" layoutX="462.0" layoutY="525.0" mnemonicParsing="false" onAction="#btnClearEntryAction" text="Ausgewählten Eintrag zurücksetzten">
                            <font>
                               <Font name="Cantarell Regular" size="17.0" />
                            </font>
@@ -93,13 +96,19 @@
                                           <Font name="Cantarell Regular" size="18.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="tftNewPosition" layoutX="160.0" layoutY="10.0" prefHeight="25.0" prefWidth="279.0" />
+                                    <JFXTextField fx:id="tftNewPosition" alignment="CENTER" layoutX="160.0" layoutY="10.0" prefHeight="25.0" prefWidth="279.0">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="13.0" />
+                                       </font></JFXTextField>
                                     <Label fx:id="labelNewValue" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="442.0" layoutY="50.0" prefHeight="34.0" prefWidth="118.0" text="Preis in Euro:">
                                        <font>
                                           <Font name="Cantarell Regular" size="18.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="tftNewValue" layoutX="380.0" layoutY="50.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <JFXTextField fx:id="tftNewValue" alignment="CENTER" layoutX="380.0" layoutY="50.0" prefHeight="25.0" prefWidth="58.0">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="13.0" />
+                                       </font></JFXTextField>
                                     <Label fx:id="lableNewColor" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="455.0" layoutY="90.0" prefHeight="34.0" prefWidth="105.0" text="Farbe:">
                                        <font>
                                           <Font name="Cantarell Regular" size="18.0" />

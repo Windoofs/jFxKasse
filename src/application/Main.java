@@ -33,8 +33,6 @@ public class Main extends Application
 
 	private DBController dbc = new DBController(this);
 
-	private String schluesselNutzer; // Passwort des Nutzers
-
 	private Stage primaryStage;
 
 	@Override
@@ -42,7 +40,6 @@ public class Main extends Application
 	{
 		this.primaryStage = primaryStage;
 		mainWindow();
-		//this.primaryStage.setResizable(false);
 	}
 
 	private void mainWindow()
@@ -51,22 +48,12 @@ public class Main extends Application
 			FXMLLoader loader = new FXMLLoader(
 					getClass().getResource("MainWindow.fxml"));
 			AnchorPane pane = loader.load();
-			// Test
-			//Test
-			//primaryStage.setWidth(1366);
-			//primaryStage.setHeight(732);
-			primaryStage.setTitle("jFxKasse"); // Title der Stage
+			primaryStage.setTitle("jFxKasse"); // Title of window
 
 			mwc = loader.getController();
 			mwc.setMain(this, dbc);
 
-			firstStart(); // Prüft ob das Programm zuvor gestartet wurde
-		
-			
-			
-		//	dbc.main(); // Startet die Datenbank
-			
-			//mwc.fuelleTablle(); // Ladt die Einträge in die Tabelle
+			firstStart();
 
 			Scene scene = new Scene(pane);
 			scene.getStylesheets()
@@ -83,42 +70,26 @@ public class Main extends Application
 		launch(args);
 	}
 
+	/**
+	 * Checks if the config.xml is preset.
+	 * @author hendrik
+	 */
 	private void firstStart() throws Exception
 	{
-		
-		if (mwc.loadSettings()) { // Wenn XML gefunden
+		if (mwc.loadSettings()) {
+			// config.xml found, app starting normal
 			System.out.println("XML gefunden!");
-			mwc.initUI(); // Startet die UI
-			mwc.setDBLabel();
-			dbc.dbname = mwc.getDatabaseName();
-			dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
-			mwc.fuelleTabllePositionen();
-			
-			
-		} else { // Wenn keine XML gefunden --> erster Start
+			mwc.initUI(); // Starting the UI elements
+			mwc.setDBLabel(); // Set databese labels
+			dbc.dbname = mwc.getDatabaseName(); // handover database name
+			dbc.connectDatabase(); // estabishing DB conection
+			mwc.fillTablePositionen(); // fill TreeTable 'Positionen'
+		} else {
+			// config.xml NOT found, first start of app
 			System.out.println("keine XML gefunden!");
-			mwc.blockUI(true);
-			if (System.getProperty("os.name").equals("Linux")) {
-
-				File dir = new File(
-						System.getProperty("user.home") + "/bin/jFxKasse"); // Erstellt
-																								// den
-																								// Unterordner
-				dir.mkdir(); // Erstellt den Unterordner
-			} else {
-				File dir = new File("C:/ProgramData/jFxKasse/"); // Erstellt den
-																					// Unterordner
-				dir.mkdir(); // Erstellt den Unterordner
-			}
-
-		//	mwc.saveSettings(mwc.getDatabaseName(), "dd"); // speichert das Passwort und
-																	// den Individueller
-																	// Schlüssel für die API in
-																	// der XML
-			//dbc.verbindeDatenbank(); // Verbindet mit der Datenbank-Datei
-			//dbc.erstelleDatenbank(); // Neue Datenbank-Datei wird erstellt
-			//System.exit(0); // Programm wird beendet
+			mwc.blockUI(true); // disable UI elements that need DB
+			File dir = new File(System.getProperty("user.home") + "/bin/jFxKasse");
+			dir.mkdir(); // Create new Subfolder
 		}
 	}
-
 }
