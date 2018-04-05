@@ -1,38 +1,16 @@
 package application;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.security.GeneralSecurityException;
-import java.security.SecureRandom;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.util.Pair;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+
 
 public class Main extends Application
 {
@@ -70,7 +48,7 @@ public class Main extends Application
 
 			Timeline timeline = new Timeline(
 					new KeyFrame(Duration.seconds(1), ev -> {
-						mwc.updateTimeLabel(); //update time
+						mwc.updateTimeLabel(); // update time
 					}));
 			timeline.setCycleCount(Animation.INDEFINITE);
 			timeline.play();

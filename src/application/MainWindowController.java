@@ -2,11 +2,7 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TreeTableColumn;
@@ -16,46 +12,29 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.ChoiceBox;
-import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.DriverManager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.security.auth.callback.Callback;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 public class MainWindowController
 {
-	private static final String String = null;
 
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 
@@ -273,6 +252,7 @@ public class MainWindowController
 	@FXML
 	private TextField tftNewDBName;
 
+	@SuppressWarnings("unused")
 	private Main main;
 
 	private DBController dbc;
@@ -285,10 +265,8 @@ public class MainWindowController
 	private String selectedColorName;
 
 	private String databaseName;
-	
-	private boolean lockState = false;
-	
 
+	private boolean lockState = false;
 
 	@FXML
 	TreeItem<tableData> rootCurrentJob = new TreeItem<>(
@@ -311,7 +289,7 @@ public class MainWindowController
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Über jFxKasse");
 		dialog.setHeaderText(
-				"Informationen und Lizenzen - Version 0.9 - Techdemo");
+				"Informationen und Lizenzen - Version 0.9.1 - Techdemo");
 
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
 
@@ -320,11 +298,16 @@ public class MainWindowController
 		grid.setVgap(10);
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
-		grid.add(new Label("Datenbank: sqlite.org - Public Domain"
-				+ " \nUI Design: eclipse.org/efxclipse/install.html - Eclipse Public License 1.0"
-				+ " \nUI - Datenbank Integration: basierend auf Project-HomeFlix - github.com/Seil0/Project-HomeFlix - GPLv3 \n"
-				+ " \nMaintainer: hendrik.schutter@coptersicht.de"
-				+ " \n(c) 2018 Hendrik Schutter"), 0, 0);
+		grid.add(new Label(
+				"Einfaches Kassensystem für kleine bis mittel große Veranstaltungen mit Bon-Drucker\n"
+						+ "\nUnter Lizenz GPL-3.0 abrufbar auf https://github.com/Windoofs/jFxKasse\n"
+						+ "\nDatenbank: sqlite.org - Public Domain"
+						+ " \nUI Design01: eclipse.org/efxclipse/install.html - Eclipse Public License 1.0"
+						+ " \nUI Design02: http://www.jfoenix.com/ -  Apache License 2.0"
+						+ " \nUI - Datenbank Integration: basierend auf Project-HomeFlix - github.com/Seil0/Project-HomeFlix - GPLv3 \n"
+						+ " \nMaintainer: hendrik.schutter@coptersicht.de"
+						+ " \n(c) 2018 Hendrik Schutter"),
+				0, 0);
 
 		dialog.getDialogPane().setContent(grid); // Setzt die GridPane auf die
 		dialog.setResizable(true); // DialogPane
@@ -407,16 +390,15 @@ public class MainWindowController
 	public void btnLockAction(ActionEvent event)
 	{
 		lockState = !lockState;
-		
+
 		blockUI(lockState);
-		
-		
-		if(lockState) {
+
+		if (lockState) {
 			btnLock.setText("Kasse entsperren");
-		}else {
+		} else {
 			btnLock.setText("Kasse sperren");
 		}
-		
+
 	}
 
 	@FXML
@@ -685,6 +667,20 @@ public class MainWindowController
 			}
 		});
 
+		final Tooltip tooltipName = new Tooltip();
+		tooltipName.setText("Name der neuen Position");
+		tooltipName.setStyle("-fx-font: normal bold 20 Cantarell; "
+				+ "-fx-base: #AE3522; " + "-fx-text-fill: orange;");
+		tftNewPosition.setTooltip(tooltipName);
+
+		final Tooltip tooltipValue = new Tooltip();
+		tooltipValue
+				.setText("Preis der neuen Position.\nPunkt als Trennzeichen!");
+		tooltipValue.setStyle("-fx-font: normal bold 20 Cantarell; "
+				+ "-fx-base: #AE3522; " + "-fx-text-fill: orange;");
+		tftNewValue.setTooltip(tooltipValue);
+		labelNewValue.setTooltip(tooltipValue);
+
 	}
 
 	public void setMain(Main main, DBController dbc)
@@ -762,7 +758,7 @@ public class MainWindowController
 	{
 		switch (pColorName) {
 		case "Rot":
-			return "#FF0000";
+			return "#ad0000";
 		case "Orange":
 			return "#FF4500";
 		case "Braun":
@@ -786,7 +782,7 @@ public class MainWindowController
 	private String getColorNames(String pColorCode)
 	{
 		switch (pColorCode) {
-		case "#FF0000":
+		case "#ad0000":
 			return "Rot";
 		case "#FF4500":
 			return "Orange";
@@ -794,7 +790,7 @@ public class MainWindowController
 			return "Braun";
 		case "#FAF0E6":
 			return "Weiß";
-		case "#FFD700b":
+		case "#FFD700":
 			return "Gelb";
 		case "#556B2F":
 			return "Gr\u00fcn";
@@ -811,7 +807,7 @@ public class MainWindowController
 	private Integer getColorID(String pColorCode)
 	{
 		switch (pColorCode) {
-		case "#FF0000":
+		case "#ad0000":
 			return 0;
 		case "#FF4500":
 			return 1;
@@ -819,7 +815,7 @@ public class MainWindowController
 			return 2;
 		case "#FAF0E6":
 			return 3;
-		case "#FFD700b":
+		case "#FFD700":
 			return 4;
 		case "#556B2F":
 			return 5;
@@ -843,10 +839,10 @@ public class MainWindowController
 		btnSaveEntry.setDisable(pState);
 		btnCancelJob.setDisable(pState);
 
-		for(int i = 0; i < 25; i++) {
+		for (int i = 0; i < 25; i++) {
 			getButtonByID(i).setDisable(pState);
 		}
-	
+
 		tftNewPosition.setDisable(pState);
 		tftNewValue.setDisable(pState);
 		colorChoise.setDisable(pState);
@@ -865,28 +861,34 @@ public class MainWindowController
 	{
 
 		for (int i = 0; i < 25; i++) {
-			
-			getButtonByID(i).setText(dbc.getName(i+1));
-			getButtonByID(i).setStyle("-fx-background-color: "+ dbc.getColor(i+1) +";");
-			
+
+			getButtonByID(i).setText(dbc.getName(i + 1));
+
+			if ((getColorID(dbc.getColor(i + 1)) == 0)
+					|| (getColorID(dbc.getColor(i + 1)) == 7)) {
+				getButtonByID(i).setStyle("-fx-background-color: "
+						+ dbc.getColor(i + 1) + "; -fx-text-fill: white;");
+			} else {
+				getButtonByID(i).setStyle("-fx-background-color: "
+						+ dbc.getColor(i + 1) + "; -fx-text-fill: black;");
+			}
+
 		}
-		
+
 		for (int i = 0; i < 25; i++) {
-			
-			if(dbc.getName(i+1).equals("Noch frei")) {
+
+			if (dbc.getName(i + 1).equals("Noch frei")) {
 				getButtonByID(i).setVisible(false);
-			}else {
+			} else {
 				getButtonByID(i).setVisible(true);
 			}
-			
-			
+
 		}
-		
-		
-		
+
 	}
-	
-	public Button getButtonByID(int pID) {
+
+	public Button getButtonByID(int pID)
+	{
 		switch (pID) {
 		case 0:
 			return gridButton01;
@@ -942,9 +944,10 @@ public class MainWindowController
 			return gridButton01;
 		}
 	}
-	
-	public void updateTimeLabel () {
-		//System.out.println(getSystemTime());
+
+	public void updateTimeLabel()
+	{
+		// System.out.println(getSystemTime());
 		labelTime.setText("Uhrzeit: " + getSystemTime());
 	}
 

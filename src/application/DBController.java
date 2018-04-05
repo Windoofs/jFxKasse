@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.io.File;
-import java.io.FileInputStream;
 
 class DBController
 {
@@ -19,6 +18,7 @@ class DBController
 
 	public String dbname;
 
+	@SuppressWarnings("unused")
 	private Main main;
 
 	public void main()
@@ -75,7 +75,7 @@ class DBController
 			return true;
 		}
 	}
-
+	
 	
 	// table Position section
 	public void createTablePositionen()
@@ -93,7 +93,7 @@ class DBController
 
 		// create 25 demo/default data entries
 		for (int i = 0; i < 25; i++) {
-			fillPositionen(i + 1, "Noch frei", (float) 0.00, "#FAF0E6");
+			fillPositionen(i + 1, "Noch frei", (float) 0.00, "#ad0000");
 		}
 	}
 
