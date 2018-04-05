@@ -6,11 +6,18 @@ import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.Pair;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -59,7 +66,14 @@ public class Main extends Application
 			scene.getStylesheets()
 					.add(Main.class.getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.show(); // zeigt die Stage an
+			primaryStage.show(); // shows the stage
+
+			Timeline timeline = new Timeline(
+					new KeyFrame(Duration.seconds(1), ev -> {
+						mwc.updateTimeLabel(); //update time
+					}));
+			timeline.setCycleCount(Animation.INDEFINITE);
+			timeline.play();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

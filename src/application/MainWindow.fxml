@@ -353,7 +353,7 @@
 										<Font name="Cantarell Regular" size="26.0" />
 									</font>
 								</Label>
-								<Label fx:id="labelTime" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="7.0" layoutY="11.0" prefHeight="15.0" prefWidth="392.0" text="Uhrzeit: 12:15" textAlignment="CENTER">
+								<Label fx:id="labelTime" alignment="TOP_RIGHT" layoutX="7.0" layoutY="11.0" maxHeight="33.0" maxWidth="392.0" minHeight="33.0" minWidth="392.0" prefHeight="33.0" prefWidth="392.0" text="Uhrzeit: 12:15">
 									<font>
 										<Font name="Cantarell Regular" size="26.0" />
 									</font>

@@ -29,8 +29,14 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.DriverManager;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.security.auth.callback.Callback;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
 import javafx.application.Platform;
@@ -281,6 +287,8 @@ public class MainWindowController
 	private String databaseName;
 	
 	private boolean lockState = false;
+	
+
 
 	@FXML
 	TreeItem<tableData> rootCurrentJob = new TreeItem<>(
@@ -426,7 +434,8 @@ public class MainWindowController
 	@FXML
 	public void gridButton01Action(ActionEvent event)
 	{
-		System.out.println("Button!");
+		System.out.println("Test Button!");
+
 	}
 
 	@FXML
@@ -596,8 +605,6 @@ public class MainWindowController
 		System.out.println("initUI");
 		tftNewDBName.setText(getDatabaseName());
 		initPositionen();
-
-		
 	}
 
 	private void initPositionen()
@@ -686,12 +693,11 @@ public class MainWindowController
 		this.dbc = dbc;
 	}
 
-	public String getSystemDatum()
+	public String getSystemTime()
 	{
-		java.util.Date now = new java.util.Date();
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-				"dd.MM.yyyy");
-		String heutigesDatum = sdf.format(now);
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		Date date = new Date();
+		String heutigesDatum = dateFormat.format(date);
 		return heutigesDatum;
 	}
 
@@ -935,6 +941,11 @@ public class MainWindowController
 		default:
 			return gridButton01;
 		}
+	}
+	
+	public void updateTimeLabel () {
+		//System.out.println(getSystemTime());
+		labelTime.setText("Uhrzeit: " + getSystemTime());
 	}
 
 }
