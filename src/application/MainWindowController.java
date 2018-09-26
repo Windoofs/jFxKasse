@@ -23,6 +23,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+
+import com.jfoenix.controls.JFXTextField;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -208,6 +211,39 @@ public class MainWindowController
 	private Button btnOpenFolder;
 
 	@FXML
+   private Label labelCat01;
+
+   @FXML
+   private Label labelCat02;
+
+   @FXML
+   private Label labelCat05;
+
+   @FXML
+   private Label labelCat04;
+
+   @FXML
+   private Label labelCat03;
+
+   @FXML
+   private JFXTextField tftKat01;
+
+   @FXML
+   private JFXTextField tftKat02;
+
+   @FXML
+   private JFXTextField tftKat03;
+
+   @FXML
+   private JFXTextField tftKat04;
+
+   @FXML
+   private JFXTextField tftKat05;
+
+   @FXML
+   private Button btnSaveCat;
+   
+	@FXML
 	private Label labelAllPrize;
 
 	@FXML
@@ -242,6 +278,9 @@ public class MainWindowController
 
 	@FXML
 	private TitledPane titlePaneStats;
+	
+	@FXML
+   private TitledPane titlePaneCat;
 
 	@FXML
 	private TextField tftNewPosition;
@@ -330,6 +369,7 @@ public class MainWindowController
 		dbc.connectDatabase(); // establish DB connection
 		dbc.createTablePositionen(); // Create new table
 		dbc.erstelleTabelleJobs(); // Create new table
+		dbc.createTableCategory(); // Create new table
 		try {
 			saveSettings(getDatabaseName());
 		} catch (Exception e) {
@@ -339,7 +379,9 @@ public class MainWindowController
 		setDBLabel(); // Set new databese labels
 		blockUI(false); // unlock UI elements that need DB
 		fillTablePositionen(); // fill TreeTable 'Positionen'
+		fillCategory();
 		initUI(); // Starting the UI elements
+		
 
 	}
 
@@ -398,6 +440,21 @@ public class MainWindowController
 		} else {
 			btnLock.setText("Kasse sperren");
 		}
+
+	}
+	
+	@FXML
+	public void btnSaveCatAction(ActionEvent event)
+	{
+		System.out.println("Cat´s speichern");
+		
+		dbc.setCategoryName(0, tftKat01.getText());
+		dbc.setCategoryName(1, tftKat02.getText());
+		dbc.setCategoryName(2, tftKat03.getText());
+		dbc.setCategoryName(3, tftKat04.getText());
+		dbc.setCategoryName(4, tftKat05.getText());
+		
+		fillCategory();
 
 	}
 
@@ -589,6 +646,15 @@ public class MainWindowController
 		initPositionen();
 	}
 
+	
+	public void fillCategory() {
+		tftKat01.setText(dbc.getCategoryName(0));
+		tftKat02.setText(dbc.getCategoryName(1));
+		tftKat03.setText(dbc.getCategoryName(2));
+		tftKat04.setText(dbc.getCategoryName(3));
+		tftKat05.setText(dbc.getCategoryName(4));
+	}
+	
 	private void initPositionen()
 	{
 		entryTreeTable.setRoot(rootPositionen);
@@ -838,6 +904,8 @@ public class MainWindowController
 		btnReprintJob.setDisable(pState);
 		btnSaveEntry.setDisable(pState);
 		btnCancelJob.setDisable(pState);
+		
+		
 
 		for (int i = 0; i < 25; i++) {
 			getButtonByID(i).setDisable(pState);
@@ -855,6 +923,10 @@ public class MainWindowController
 		labelJobCounter.setVisible(!pState);
 
 		titlePaneStats.setVisible(!pState);
+		
+		titlePaneCat.setDisable(pState);
+		
+		
 	}
 
 	public void loadGridButtons()

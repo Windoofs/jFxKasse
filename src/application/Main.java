@@ -76,6 +76,7 @@ public class Main extends Application
 			dbc.dbname = mwc.getDatabaseName(); // handover database name
 			dbc.connectDatabase(); // estabishing DB conection
 			mwc.fillTablePositionen(); // fill TreeTable 'Positionen'
+			mwc.fillCategory();
 			mwc.loadGridButtons();
 		} else {
 			// config.xml NOT found, first start of app

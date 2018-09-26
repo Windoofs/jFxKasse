@@ -25,10 +25,10 @@
 					<content>
 						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 							<children>
-								<Button fx:id="ueberbtn" layoutX="664.0" layoutY="325.0" mnemonicParsing="false" onAction="#ueberbtnAction" text="Über" />
-                        <TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="CENTER" layoutX="790.0" layoutY="10.0" prefHeight="163.0" prefWidth="566.0" text="Datenbank">
+								<Button fx:id="ueberbtn" layoutX="84.0" layoutY="79.0" mnemonicParsing="false" onAction="#ueberbtnAction" prefHeight="0.0" prefWidth="46.0" text="Über" />
+                        <TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="CENTER" layoutX="790.0" layoutY="10.0" prefHeight="270.0" prefWidth="566.0" text="Datenbank Einstellungen">
                            <content>
-                              <AnchorPane fx:id="paneDB" minHeight="0.0" minWidth="0.0" prefHeight="135.0" prefWidth="547.0">
+                              <AnchorPane fx:id="paneDB" minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="564.0">
                                  <children>
                                     <Label fx:id="labelDBName" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="329.0" layoutY="10.0" prefHeight="34.0" prefWidth="229.0" text="Datenbankname:">
                                        <font>
@@ -36,17 +36,17 @@
                                        </font>
                                     </Label>
                                     <JFXTextField fx:id="tftNewDBName" alignment="CENTER" layoutX="25.0" layoutY="10.0" prefHeight="25.0" prefWidth="376.0" />
-                                    <Label fx:id="labelDBStatus" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="7.0" layoutY="50.0" prefHeight="34.0" prefWidth="551.0" text="Keine Datenbank gefunden!">
+                                    <Label fx:id="labelDBStatus" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="1.0" layoutY="75.0" prefHeight="34.0" prefWidth="551.0" text="Keine Datenbank gefunden!">
                                        <font>
                                           <Font name="Cantarell Regular" size="18.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnCreateNewDatabase" layoutX="297.0" layoutY="90.0" mnemonicParsing="false" onAction="#btnCreateNewDatabaseAction" text="Neue Datenbank anlegen">
+                                    <Button fx:id="btnCreateNewDatabase" layoutX="317.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnCreateNewDatabaseAction" text="Neue Datenbank anlegen">
                                        <font>
                                           <Font name="Cantarell Regular" size="13.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="btnOpenFolder" layoutX="39.0" layoutY="90.0" mnemonicParsing="false" onAction="#btnOpenFolderAction" text="Speicherort öffnen">
+                                    <Button fx:id="btnOpenFolder" layoutX="99.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnOpenFolderAction" text="Speicherort öffnen">
                                        <font>
                                           <Font name="Cantarell Regular" size="13.0" />
                                        </font>
@@ -54,6 +54,52 @@
                                  </children>
                               </AnchorPane>
                            </content>
+                           <font>
+                              <Font name="Cantarell Regular" size="13.0" />
+                           </font>
+                        </TitledPane>
+                        <TitledPane fx:id="titlePaneCat" alignment="CENTER" animated="false" collapsible="false" contentDisplay="CENTER" layoutX="170.0" layoutY="10.0" prefHeight="270.0" prefWidth="566.0" text="Kategorien (z.B. Getränke, Essen oder Kuchen)" textAlignment="CENTER">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="564.0">
+                                 <children>
+                                    <Label fx:id="labelCat01" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="434.0" layoutY="10.0" prefHeight="34.0" prefWidth="124.0" text="Kategorie 1:">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="labelCat02" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="442.0" layoutY="50.0" prefHeight="34.0" prefWidth="116.0" text="Kategorie 2:">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="labelCat05" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="448.0" layoutY="170.0" prefHeight="34.0" prefWidth="110.0" text="Kategorie 5:">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="labelCat04" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="454.0" layoutY="130.0" prefHeight="34.0" prefWidth="104.0" text="Kategorie 4:">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="labelCat03" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="451.0" layoutY="90.0" prefHeight="34.0" prefWidth="107.0" text="Kategorie 3:">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="tftKat01" alignment="CENTER" layoutX="50.0" layoutY="5.0" prefHeight="25.0" prefWidth="376.0" />
+                                    <JFXTextField fx:id="tftKat02" alignment="CENTER" layoutX="50.0" layoutY="45.0" prefHeight="25.0" prefWidth="376.0" />
+                                    <JFXTextField fx:id="tftKat03" alignment="CENTER" layoutX="50.0" layoutY="85.0" prefHeight="25.0" prefWidth="376.0" />
+                                    <JFXTextField fx:id="tftKat04" alignment="CENTER" layoutX="50.0" layoutY="125.0" prefHeight="25.0" prefWidth="376.0" />
+                                    <JFXTextField fx:id="tftKat05" alignment="CENTER" layoutX="50.0" layoutY="165.0" prefHeight="25.0" prefWidth="376.0" />
+                                    <Button fx:id="btnSaveCat" layoutX="200.0" layoutY="204.0" mnemonicParsing="false" onAction="#btnSaveCatAction" text="Kategorien speichern">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="13.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                          </content>
                            <font>
                               <Font name="Cantarell Regular" size="13.0" />
                            </font>

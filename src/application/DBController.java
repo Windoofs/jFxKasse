@@ -75,8 +75,7 @@ class DBController
 			return true;
 		}
 	}
-	
-	
+
 	// table Position section
 	public void createTablePositionen()
 	{ // create table position
@@ -95,6 +94,69 @@ class DBController
 		for (int i = 0; i < 25; i++) {
 			fillPositionen(i + 1, "Noch frei", (float) 0.00, "#ad0000");
 		}
+	}
+
+	public void createTableCategory()
+	{ // create table position
+		System.out.println("Erstelle Tabelle Kategorie");
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("DROP TABLE IF EXISTS category;");
+			stmt.executeUpdate("CREATE TABLE category (id, name);");
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+
+		for(int i = 0; i < 5; i++) {
+			fillCategory(i, "Standard");
+		}
+		
+	}
+	
+	public String getCategoryName(int pID) {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, name FROM category WHERE id = " + pID + ";");
+			return rs.getString("name");
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+			return "Error 404";
+		}
+	}
+	
+	public void setCategoryName(int pID, String pName)
+	{ // Setzte den Namen
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("UPDATE category SET name = '" + pName
+					+ "'WHERE id =" + pID + ";");
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+	}
+
+	public void fillCategory(int pID, String pName)
+	{
+
+		System.out.println("Erstelle neuen Kategorie Eintrag");
+		try {
+			PreparedStatement ps = connection
+					.prepareStatement("INSERT INTO category VALUES (?, ?);");
+			ps.setInt(1, pID); // primary
+			ps.setString(2, pName);
+			ps.addBatch();
+			connection.setAutoCommit(false);
+			ps.executeBatch(); // SQL execution
+			connection.setAutoCommit(true);
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+
 	}
 
 	public void fillPositionen(int pID, String pName, float pValue,
@@ -220,7 +282,7 @@ class DBController
 		}
 		return daten;
 	}
-	
+
 	public void ausgebenSysoPositionen()
 	{ // Debugging Ausgabe der kompletten Tabelle
 		System.out.println("Print positionen");
@@ -241,7 +303,6 @@ class DBController
 		}
 	}
 
-	
 	// table Jobs section
 	public void erstelleTabelleJobs()
 	{ // Erstelle Tabelle mit Reihen
@@ -256,8 +317,5 @@ class DBController
 			e.printStackTrace();
 		}
 	}
-
-	
-	
 
 }
