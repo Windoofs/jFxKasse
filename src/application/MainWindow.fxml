@@ -114,10 +114,11 @@
                      <children>
                         <TreeTableView fx:id="entryTreeTable" layoutX="11.0" layoutY="10.0" prefHeight="502.0" prefWidth="1346.0">
                            <columns>
-                              <TreeTableColumn fx:id="columnColor" editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Farbe" />
-                              <TreeTableColumn fx:id="columnPrize" editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" text="Preis" />
-                              <TreeTableColumn fx:id="columnPositionsEdit" editable="false" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" resizable="false" sortable="false" text="Positionen" />
-                              <TreeTableColumn fx:id="columnPosnumber" editable="false" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false" sortable="false" text="Nummer" />
+                              <TreeTableColumn fx:id="columnColor" editable="false" maxWidth="237.3333740234375" minWidth="164.0" prefWidth="164.0" resizable="false" sortable="false" text="Farbe" />
+                              <TreeTableColumn fx:id="columnCat" editable="false" maxWidth="800.0" minWidth="176.33331298828125" prefWidth="370.0" resizable="false" sortable="false" text="Kategorie" />
+                              <TreeTableColumn fx:id="columnPrize" editable="false" maxWidth="693.3333129882812" minWidth="44.33331298828125" prefWidth="126.66668701171875" resizable="false" sortable="false" text="Preis" />
+                              <TreeTableColumn fx:id="columnPositionsEdit" editable="false" maxWidth="1581.6666870117188" minWidth="38.0" prefWidth="543.3333129882812" resizable="false" sortable="false" text="Positionen" />
+                              <TreeTableColumn fx:id="columnPosnumber" editable="false" maxWidth="1218.0" minWidth="60.666748046875" prefWidth="148.6666259765625" resizable="false" sortable="false" text="Nummer" />
                            </columns>
                            <columnResizePolicy>
                               <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -160,7 +161,13 @@
                                           <Font name="Cantarell Regular" size="18.0" />
                                        </font>
                                     </Label>
-                                    <ChoiceBox fx:id="colorChoise" layoutX="292.0" layoutY="95.0" prefWidth="150.0" />
+                                    <ChoiceBox fx:id="colorChoise" layoutX="346.0" layoutY="90.0" prefHeight="25.0" prefWidth="96.0" />
+                                    <Label fx:id="lableSelectCat" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="204.0" layoutY="90.0" prefHeight="34.0" prefWidth="105.0" text="Kategorie:">
+                                       <font>
+                                          <Font name="Cantarell Regular" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <ChoiceBox fx:id="catChoise" layoutX="25.0" layoutY="90.0" prefHeight="25.0" prefWidth="180.0" />
                                  </children>
                               </AnchorPane>
                           </content>

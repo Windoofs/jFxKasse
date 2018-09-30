@@ -14,13 +14,16 @@ public class tableDataPositionen
 
 	private final StringProperty value = new SimpleStringProperty();
 	
+	private final StringProperty cat = new SimpleStringProperty();
+	
 	private final StringProperty color = new SimpleStringProperty();
 
-	public tableDataPositionen(final int id, final String name, final String value, final String color)
+	public tableDataPositionen(final int id, final String name, final String value, final String cat, final String color)
 	{
 		this.id.set(id);
 		this.name.set(name);
 		this.value.set(value);
+		this.cat.set(cat);
 		this.color.set(color);
 	}
 
@@ -37,6 +40,10 @@ public class tableDataPositionen
 	public StringProperty valueProperty()
 	{
 		return value;
+	}
+	
+	public StringProperty catProperty() {
+		return cat;
 	}
 	
 	public StringProperty colorProperty()
@@ -59,6 +66,10 @@ public class tableDataPositionen
 		return valueProperty().get();
 	}
 	
+	public String getCat() {
+		return catProperty().get();
+	}
+	
 	public String getColor()
 	{
 		return colorProperty().get();
@@ -77,6 +88,10 @@ public class tableDataPositionen
 	public final void setValue(String value)
 	{
 		valueProperty().set(value);
+	}
+	
+	public final void setCat(String cat) {
+		catProperty().set(cat);
 	}
 	
 	public final void setColor(String color)

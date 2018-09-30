@@ -91,6 +91,9 @@ public class MainWindowController
 	private TreeTableColumn<tableDataPositionen, String> columnColor;
 
 	@FXML
+	private TreeTableColumn<tableDataPositionen, String> columnCat;
+
+	@FXML
 	private TreeTableColumn<tableDataPositionen, String> columnPrize;
 
 	@FXML
@@ -101,6 +104,9 @@ public class MainWindowController
 
 	@FXML
 	private ChoiceBox<String> colorChoise;
+
+	@FXML
+	private ChoiceBox<String> catChoise;
 
 	@FXML
 	private Button ueberbtn;
@@ -211,38 +217,38 @@ public class MainWindowController
 	private Button btnOpenFolder;
 
 	@FXML
-   private Label labelCat01;
+	private Label labelCat01;
 
-   @FXML
-   private Label labelCat02;
+	@FXML
+	private Label labelCat02;
 
-   @FXML
-   private Label labelCat05;
+	@FXML
+	private Label labelCat05;
 
-   @FXML
-   private Label labelCat04;
+	@FXML
+	private Label labelCat04;
 
-   @FXML
-   private Label labelCat03;
+	@FXML
+	private Label labelCat03;
 
-   @FXML
-   private JFXTextField tftKat01;
+	@FXML
+	private JFXTextField tftKat01;
 
-   @FXML
-   private JFXTextField tftKat02;
+	@FXML
+	private JFXTextField tftKat02;
 
-   @FXML
-   private JFXTextField tftKat03;
+	@FXML
+	private JFXTextField tftKat03;
 
-   @FXML
-   private JFXTextField tftKat04;
+	@FXML
+	private JFXTextField tftKat04;
 
-   @FXML
-   private JFXTextField tftKat05;
+	@FXML
+	private JFXTextField tftKat05;
 
-   @FXML
-   private Button btnSaveCat;
-   
+	@FXML
+	private Button btnSaveCat;
+
 	@FXML
 	private Label labelAllPrize;
 
@@ -262,6 +268,9 @@ public class MainWindowController
 	private Label lableAllValue;
 
 	@FXML
+	private Label lableSelectCat;
+
+	@FXML
 	private Label lableNewPosition;
 
 	@FXML
@@ -278,9 +287,9 @@ public class MainWindowController
 
 	@FXML
 	private TitledPane titlePaneStats;
-	
+
 	@FXML
-   private TitledPane titlePaneCat;
+	private TitledPane titlePaneCat;
 
 	@FXML
 	private TextField tftNewPosition;
@@ -303,6 +312,8 @@ public class MainWindowController
 
 	private String selectedColorName;
 
+	private String selectedCatName;
+
 	private String databaseName;
 
 	private boolean lockState = false;
@@ -316,7 +327,7 @@ public class MainWindowController
 
 	@FXML
 	TreeItem<tableDataPositionen> rootPositionen = new TreeItem<>(
-			new tableDataPositionen(0, "0", "0", "0"));
+			new tableDataPositionen(0, "0", "0", "0", "0"));
 
 	Properties props = new Properties();
 
@@ -381,7 +392,6 @@ public class MainWindowController
 		fillTablePositionen(); // fill TreeTable 'Positionen'
 		fillCategory();
 		initUI(); // Starting the UI elements
-		
 
 	}
 
@@ -390,10 +400,11 @@ public class MainWindowController
 	{
 		System.out.println("Speichere Eintrag!");
 
-		dbc.setName(idPositionen, tftNewPosition.getText());
-		dbc.setValue(idPositionen, tftNewValue.getText());
-		dbc.setColor(idPositionen, getColorCodes(selectedColorName));
+		dbc.setName_Positionen(idPositionen, tftNewPosition.getText());
+		dbc.setValue_Positionen(idPositionen, tftNewValue.getText());
+		dbc.setColor_Positionen(idPositionen, getColorCodes(selectedColorName));
 
+		System.out.println("refill pos");
 		fillTablePositionen(); // fill TreeTable 'Positionen'
 		loadGridButtons();
 
@@ -403,9 +414,9 @@ public class MainWindowController
 	public void btnClearEntryAction(ActionEvent event)
 	{
 		// set default values
-		dbc.setName(idPositionen, "Noch frei");
-		dbc.setValue(idPositionen, "0.00");
-		dbc.setColor(idPositionen, "#FAF0E6");
+		dbc.setName_Positionen(idPositionen, "Noch frei");
+		dbc.setValue_Positionen(idPositionen, "0.00");
+		dbc.setColor_Positionen(idPositionen, "#FAF0E6");
 
 		fillTablePositionen(); // fill TreeTable 'Positionen'
 	}
@@ -442,19 +453,21 @@ public class MainWindowController
 		}
 
 	}
-	
+
 	@FXML
 	public void btnSaveCatAction(ActionEvent event)
 	{
 		System.out.println("Cat´s speichern");
-		
-		dbc.setCategoryName(0, tftKat01.getText());
-		dbc.setCategoryName(1, tftKat02.getText());
-		dbc.setCategoryName(2, tftKat03.getText());
-		dbc.setCategoryName(3, tftKat04.getText());
-		dbc.setCategoryName(4, tftKat05.getText());
-		
+
+		dbc.setName_Category(1, tftKat01.getText());
+		dbc.setName_Category(2, tftKat02.getText());
+		dbc.setName_Category(3, tftKat03.getText());
+		dbc.setName_Category(4, tftKat04.getText());
+		dbc.setName_Category(5, tftKat05.getText());
+
 		fillCategory();
+		fillTablePositionen();
+		getSelectedCat();
 
 	}
 
@@ -624,6 +637,7 @@ public class MainWindowController
 	@FXML
 	public void fillTablePositionen()
 	{ // loads the table in the TreeTableView
+
 		rootPositionen.getChildren().remove(0,
 				rootPositionen.getChildren().size());
 
@@ -632,11 +646,17 @@ public class MainWindowController
 					dbc.ladeTabellePositionen().get(i).getID(),
 					dbc.ladeTabellePositionen().get(i).getName(),
 					dbc.ladeTabellePositionen().get(i).getValue() + " €",
+
+					// dbc.ladeTabellePositionen().get(i).getCat(),
+					// dbc.getCategoryName(dbc.ladeTabellePositionen().get(i).getCat()))
+					dbc.getCategoryNameFromPositionen(i + 1),
+
 					getColorNames(dbc.ladeTabellePositionen().get(i).getColor()));
 
 			rootPositionen.getChildren()
 					.add(new TreeItem<tableDataPositionen>(helpTableData));
 		}
+
 	}
 
 	public void initUI()
@@ -644,17 +664,52 @@ public class MainWindowController
 		System.out.println("initUI");
 		tftNewDBName.setText(getDatabaseName());
 		initPositionen();
+
 	}
 
-	
-	public void fillCategory() {
-		tftKat01.setText(dbc.getCategoryName(0));
-		tftKat02.setText(dbc.getCategoryName(1));
-		tftKat03.setText(dbc.getCategoryName(2));
-		tftKat04.setText(dbc.getCategoryName(3));
-		tftKat05.setText(dbc.getCategoryName(4));
+	public int getSelectedCat()
+	{
+
+		ObservableList<String> cats = FXCollections.observableArrayList();
+
+		cats.add(dbc.getName_Category(1));
+		cats.add(dbc.getName_Category(2));
+		cats.add(dbc.getName_Category(3));
+		cats.add(dbc.getName_Category(4));
+		cats.add(dbc.getName_Category(5));
+
+		catChoise.setItems(cats);
+		catChoise.getSelectionModel().selectedIndexProperty()
+				.addListener(new ChangeListener<Number>() {
+					@Override
+					public void changed(ObservableValue<? extends Number> ov,
+							Number value, Number new_value)
+					{
+						selectedCatName = catChoise.getItems().get((int) new_value)
+								.toString();
+
+						System.out.println("Ausgewählte Cat: " + selectedCatName);
+					}
+				});
+
+		for (int i = 1; i < 5; i++) {
+			if (selectedCatName == dbc.getName_Category(i)) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
-	
+
+	public void fillCategory()
+	{
+		tftKat01.setText(dbc.getName_Category(1));
+		tftKat02.setText(dbc.getName_Category(2));
+		tftKat03.setText(dbc.getName_Category(3));
+		tftKat04.setText(dbc.getName_Category(4));
+		tftKat05.setText(dbc.getName_Category(5));
+	}
+
 	private void initPositionen()
 	{
 		entryTreeTable.setRoot(rootPositionen);
@@ -685,6 +740,9 @@ public class MainWindowController
 		columnPrize.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().valueProperty());
 
+		columnCat.setCellValueFactory(
+				cellData -> cellData.getValue().getValue().catProperty());
+
 		columnColor.setCellValueFactory(
 				cellData -> cellData.getValue().getValue().colorProperty());
 
@@ -697,18 +755,20 @@ public class MainWindowController
 						// last = selected; //for auto-play
 						int selected = entryTreeTable.getSelectionModel()
 								.getSelectedIndex(); // get selected item
+
 						idPositionen = columnPosnumber.getCellData(selected); // Ausgewählte
-						// Spalte
+																								// Spalte
 
 						System.out.println(
 								"Positionen - Ausgewaehlte Spalte: " + idPositionen);
 
 						try { // Setzt den Inhalt in die Textfelder
 
-							tftNewPosition.setText(dbc.getName(idPositionen));
-							tftNewValue.setText(dbc.getValue(idPositionen));
-							colorChoise.getSelectionModel()
-									.select(getColorID(dbc.getColor(idPositionen)));
+							tftNewPosition
+									.setText(dbc.getName_Positionen(idPositionen));
+							tftNewValue.setText(dbc.getValue_Positionen(idPositionen));
+							colorChoise.getSelectionModel().select(
+									getColorID(dbc.getColor_Positionen(idPositionen)));
 
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -720,6 +780,7 @@ public class MainWindowController
 		columnPosnumber.setStyle("-fx-alignment: CENTER;");
 		columnPositionsEdit.setStyle("-fx-alignment: CENTER;");
 		columnPrize.setStyle("-fx-alignment: CENTER;");
+		columnCat.setStyle("-fx-alignment: CENTER;");
 		columnColor.setStyle("-fx-alignment: CENTER;");
 
 		tftNewValue.textProperty().addListener(new ChangeListener<String>() {
@@ -904,8 +965,6 @@ public class MainWindowController
 		btnReprintJob.setDisable(pState);
 		btnSaveEntry.setDisable(pState);
 		btnCancelJob.setDisable(pState);
-		
-		
 
 		for (int i = 0; i < 25; i++) {
 			getButtonByID(i).setDisable(pState);
@@ -923,10 +982,9 @@ public class MainWindowController
 		labelJobCounter.setVisible(!pState);
 
 		titlePaneStats.setVisible(!pState);
-		
+
 		titlePaneCat.setDisable(pState);
-		
-		
+
 	}
 
 	public void loadGridButtons()
@@ -934,22 +992,22 @@ public class MainWindowController
 
 		for (int i = 0; i < 25; i++) {
 
-			getButtonByID(i).setText(dbc.getName(i + 1));
+			getButtonByID(i).setText(dbc.getName_Positionen(i + 1));
 
-			if ((getColorID(dbc.getColor(i + 1)) == 0)
-					|| (getColorID(dbc.getColor(i + 1)) == 7)) {
+			if ((getColorID(dbc.getColor_Positionen(i + 1)) == 0)
+					|| (getColorID(dbc.getColor_Positionen(i + 1)) == 7)) {
 				getButtonByID(i).setStyle("-fx-background-color: "
-						+ dbc.getColor(i + 1) + "; -fx-text-fill: white;");
+						+ dbc.getColor_Positionen(i + 1) + "; -fx-text-fill: white;");
 			} else {
 				getButtonByID(i).setStyle("-fx-background-color: "
-						+ dbc.getColor(i + 1) + "; -fx-text-fill: black;");
+						+ dbc.getColor_Positionen(i + 1) + "; -fx-text-fill: black;");
 			}
 
 		}
 
 		for (int i = 0; i < 25; i++) {
 
-			if (dbc.getName(i + 1).equals("Noch frei")) {
+			if (dbc.getName_Positionen(i + 1).equals("Noch frei")) {
 				getButtonByID(i).setVisible(false);
 			} else {
 				getButtonByID(i).setVisible(true);

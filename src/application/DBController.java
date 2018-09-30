@@ -84,7 +84,7 @@ class DBController
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("DROP TABLE IF EXISTS positionen;");
 			stmt.executeUpdate(
-					"CREATE TABLE positionen (id, name, value, color);");
+					"CREATE TABLE positionen (posid, name, value, cat, color);");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
@@ -92,7 +92,8 @@ class DBController
 
 		// create 25 demo/default data entries
 		for (int i = 0; i < 25; i++) {
-			fillPositionen(i + 1, "Noch frei", (float) 0.00, "#ad0000");
+			fillPositionen_Positionen(i + 1, "Noch frei", (float) 0.00,
+					((int) (i / 5)) + 1, "#ad0000");
 		}
 	}
 
@@ -102,44 +103,49 @@ class DBController
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("DROP TABLE IF EXISTS category;");
-			stmt.executeUpdate("CREATE TABLE category (id, name);");
+			stmt.executeUpdate("CREATE TABLE category (catid, catname);");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
 		}
 
-		for(int i = 0; i < 5; i++) {
-			fillCategory(i, "Standard");
+		for (int i = 1; i < 6; i++) {
+			fillCategory_Category(i, "Cat: " + (i));
 		}
-		
+
 	}
-	
-	public String getCategoryName(int pID) {
+
+	public String getCategoryNameFromPositionen(int pID)
+	{
+		//System.out.println("getCategoryName: " + pID);
+
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, name FROM category WHERE id = " + pID + ";");
-			return rs.getString("name");
+					"SELECT posid, cat, catid, catname FROM positionen, category "
+							+ "WHERE posid = " + pID + " AND cat = catid;");
+			return rs.getString("catname");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
 			return "Error 404";
 		}
+
 	}
-	
-	public void setCategoryName(int pID, String pName)
+
+	public void setName_Category(int pID, String pName)
 	{ // Setzte den Namen
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("UPDATE category SET name = '" + pName
-					+ "'WHERE id =" + pID + ";");
+			stmt.executeUpdate("UPDATE category SET catname = '" + pName
+					+ "'WHERE catid =" + pID + ";");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
 		}
 	}
 
-	public void fillCategory(int pID, String pName)
+	public void fillCategory_Category(int pID, String pName)
 	{
 
 		System.out.println("Erstelle neuen Kategorie Eintrag");
@@ -159,17 +165,18 @@ class DBController
 
 	}
 
-	public void fillPositionen(int pID, String pName, float pValue,
-			String pColor)
+	public void fillPositionen_Positionen(int pID, String pName, float pValue,
+			int pCat, String pColor)
 	{ // create new data in table
 		System.out.println("Erstelle neuen positionen eintrag");
 		try {
-			PreparedStatement ps = connection
-					.prepareStatement("INSERT INTO positionen VALUES (?, ?, ?, ?);");
+			PreparedStatement ps = connection.prepareStatement(
+					"INSERT INTO positionen VALUES (?, ?, ?, ?, ?);");
 			ps.setInt(1, pID); // primary
 			ps.setString(2, pName);
 			ps.setFloat(3, pValue);
-			ps.setString(4, pColor);
+			ps.setInt(4, pCat);
+			ps.setString(5, pColor);
 
 			ps.addBatch();
 			connection.setAutoCommit(false);
@@ -181,12 +188,12 @@ class DBController
 		}
 	}
 
-	public String getName(int pID)
+	public String getName_Positionen(int pID)
 	{ // Gibt das Datum zurück
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, name FROM positionen WHERE id = " + pID + ";");
+					"SELECT posid, name FROM positionen WHERE posid = " + pID + ";");
 			return rs.getString("name");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
@@ -195,12 +202,28 @@ class DBController
 		}
 	}
 
-	public String getValue(int pID)
+	public String getName_Category(int pID)
+	{ // Gibt das Datum zurück
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT catid, catname FROM category WHERE catid = " + pID
+							+ ";");
+			return rs.getString("catname");
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+			return "Error 404";
+		}
+	}
+
+	public String getValue_Positionen(int pID)
 	{ // Gibt das Konto zurück
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, value FROM positionen WHERE id = " + pID + ";");
+					"SELECT posid, value FROM positionen WHERE posid = " + pID
+							+ ";");
 			return rs.getString("value");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
@@ -209,12 +232,28 @@ class DBController
 		}
 	}
 
-	public String getColor(int pID)
+	public int getCat_Positionen(int pID)
 	{ // Gibt den Nutzernamen zurück
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, color FROM positionen WHERE id = " + pID + ";");
+					"SELECT catid, cat FROM positionen WHERE catid = " + pID + ";");
+			System.out.println("getCarTet: " + rs.getInt("cat"));
+			return rs.getInt("cat");
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	public String getColor_Positionen(int pID)
+	{ // Gibt den Nutzernamen zurück
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT posid, color FROM positionen WHERE posid = " + pID
+							+ ";");
 			return rs.getString("color");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
@@ -223,36 +262,48 @@ class DBController
 		}
 	}
 
-	public void setName(int pID, String pName)
+	public void setName_Positionen(int pID, String pName)
 	{ // Setzt das Datum
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("UPDATE positionen SET name = '" + pName
-					+ "'WHERE id =" + pID + ";");
+					+ "'WHERE posid =" + pID + ";");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
 		}
 	}
 
-	public void setValue(int pID, String pValue)
+	public void setValue_Positionen(int pID, String pValue)
 	{ // Setzt das Konto
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("UPDATE positionen SET value = '" + pValue
-					+ "'WHERE id =" + pID + ";");
+					+ "'WHERE posid =" + pID + ";");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
 		}
 	}
 
-	public void setColor(int pID, String pColor)
+	public void setCat_Positionen(int pID, int pCat)
+	{ // Setzt den Nutzername
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("UPDATE positionen SET cat = '" + pCat
+					+ "'WHERE catid =" + pID + ";");
+		} catch (SQLException e) {
+			System.err.println("Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+	}
+
+	public void setColor_Positionen(int pID, String pColor)
 	{ // Setzt den Nutzername
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("UPDATE positionen SET color = '" + pColor
-					+ "'WHERE id =" + pID + ";");
+					+ "'WHERE posid =" + pID + ";");
 		} catch (SQLException e) {
 			System.err.println("Couldn't handle DB-Query");
 			e.printStackTrace();
@@ -268,9 +319,9 @@ class DBController
 			while (rs.next()) {
 				try {
 					// Entschlüsselte Daten werden als Datenobjekt gespeichert
-					daten.add(new tableDataPositionen(rs.getInt("id"),
+					daten.add(new tableDataPositionen(rs.getInt("posid"),
 							rs.getString("name"), rs.getString("value"),
-							rs.getString("color")));
+							rs.getString("cat"), rs.getString("color")));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -290,7 +341,7 @@ class DBController
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM positionen;");
 			while (rs.next()) {
-				System.out.println("id = " + rs.getString("id"));
+				System.out.println("posid = " + rs.getString("posid"));
 				System.out.println("name = " + rs.getString("name"));
 				System.out.println("vale = " + rs.getString("value"));
 				System.out.println("color = " + rs.getString("color"));

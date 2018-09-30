@@ -78,6 +78,7 @@ public class Main extends Application
 			mwc.fillTablePositionen(); // fill TreeTable 'Positionen'
 			mwc.fillCategory();
 			mwc.loadGridButtons();
+			mwc.getSelectedCat(); //Load DB entries in Chois Box
 		} else {
 			// config.xml NOT found, first start of app
 			System.out.println("keine XML gefunden!");
